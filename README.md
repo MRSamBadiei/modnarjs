@@ -10,7 +10,7 @@
 ---
 
 ```javascript
-const rand = require("rand");
+const modnarjs = require("modnarjs");
 ```
 
 ## Names
@@ -18,36 +18,36 @@ const rand = require("rand");
 ### First Name
 
 ```typescript
-randomly.name.fName({
+modnarjs.name.fName({
     name?: string | undefined,
     gender?: string | undefined,
     start?: string | undefined,
     end?: string | undefined
 }): string
 // e.g.
-randomly.name.fName() // ==> "sam"
+modnarjs.name.fName() // ==> "sam"
 ```
 
 ### Last Name
 
 ```typescript
-randomly.name.lName({
+modnarjs.name.lName({
     name?: string | undefined,
     start?: string | undefined,
     end?: string | undefined
 }): string
 // e.g.
-randomly.name.lName({start: "h"}) // ==> "HAGGSTROM"
+modnarjs.name.lName({start: "h"}) // ==> "HAGGSTROM"
 ```
 
 ### Prefix
 
 ```typescript
-randomly.name.prefix({
+modnarjs.name.prefix({
     gender?: string | undefined
 }): string
 // e.g.
-randomly.name.lName({gender: "male"}) // ==> "Mr."
+modnarjs.name.lName({gender: "male"}) // ==> "Mr."
 ```
 
 ## Animals
@@ -55,9 +55,9 @@ randomly.name.lName({gender: "male"}) // ==> "Mr."
 ### kind
 
 ```typescript
-randomly.animal.kind(): string
+modnarjs.animal.kind(): string
 // e.g.
-randomly.animal.kind() // ==> "dog"
+modnarjs.animal.kind() // ==> "dog"
 ```
 
 ## Colors
@@ -65,10 +65,10 @@ randomly.animal.kind() // ==> "dog"
 ### color
 
 ```typescript
-randomly.color.color({format?:string}): number[] | undefined | string
+modnarjs.color.color({format?:string}): number[] | undefined | string
 // formats => "rgb", "rgba", "hex" - (default is "rgb")
 // e.g.
-randomly.color.color({format:'hex'}) // ==> "1e1e1e"
+modnarjs.color.color({format:'hex'}) // ==> "1e1e1e"
 ```
 
 ## Phones
@@ -76,10 +76,10 @@ randomly.color.color({format:'hex'}) // ==> "1e1e1e"
 ### phone
 
 ```typescript
-randomly.phone.phone({format?:string}): string
+modnarjs.phone.phone({format?:string}): string
 // e.g.
-randomly.phone.phone({format:"### ### ###"}) // ==> "123 645 123"
-randomly.phone.phone() // ==> "1+ 645 123 4343"
+modnarjs.phone.phone({format:"### ### ###"}) // ==> "123 645 123"
+modnarjs.phone.phone() // ==> "1+ 645 123 4343"
 ```
 
 ## Sentence
@@ -93,13 +93,13 @@ All credit card numbers are valid with luhn algorithm
 ### visaCard
 
 ```typescript
-randomly.card.visaCard({
+modnarjs.card.visaCard({
   creditNumber: number,
   cvv: number,
   holder: string,
   expire: string}): I_Card_Visa
 // e.g.
-randomly.card.visaCard() // ==>
+modnarjs.card.visaCard() // ==>
 {
   creditNumber: 4775876705860201,
   cvv: 712,
@@ -111,7 +111,7 @@ randomly.card.visaCard() // ==>
 ### masterCard
 
 ```typescript
-randomly.card.masterCard({
+modnarjs.card.masterCard({
   creditNumber: number,
   cvv: number,
   holder: string,
@@ -121,7 +121,7 @@ randomly.card.masterCard({
 ### amexCard
 
 ```typescript
-randomly.card.amexCard({
+modnarjs.card.amexCard({
   creditNumber: number,
   cvv: number,
   holder: string,
@@ -131,7 +131,7 @@ randomly.card.amexCard({
 ### isValid (luhn algorithm)
 
 ```typescript
-randomly.card.isValid(creaditCardNumber: string): I_Card_Visa_Valid
+modnarjs.card.isValid(creaditCardNumber: string): I_Card_Visa_Valid
 // e.g.
-randomly.card.isValid("4775876705860201") => true
+modnarjs.card.isValid("4775876705860201") => true
 ```
