@@ -95,39 +95,29 @@ All credit card numbers are valid with luhn algorithm
 ### visaCard
 
 ```typescript
-modnarjs.card.visaCard({
-  creditNumber: number,
-  cvv: number,
-  holder: string,
-  expire: string}): I_Card_Visa
+modnarjs.card.visaCard(): I_Card_Visa
 // e.g.
-modnarjs.card.visaCard() // ==>
+modnarjs.card.visaCard()
+/*
 {
   creditNumber: 4775876705860201,
   cvv: 712,
   holder: 'WENDELL CMIEL',
   expire: '15/24'
 }
+*/
 ```
 
 ### masterCard
 
 ```typescript
-modnarjs.card.masterCard({
-  creditNumber: number,
-  cvv: number,
-  holder: string,
-  expire: string}): I_Card_Visa
+modnarjs.card.masterCard(): I_Card_Visa
 ```
 
 ### amexCard
 
 ```typescript
-modnarjs.card.amexCard({
-  creditNumber: number,
-  cvv: number,
-  holder: string,
-  expire: string}): I_Card_Visa
+modnarjs.card.amexCard(): I_Card_Visa
 ```
 
 ### isValid (luhn algorithm)
