@@ -5,7 +5,9 @@
 
 ## Installation
 
-> Well its not ready yet but im still working on it :)
+```sh
+npm i modnarjs
+```
 
 ---
 

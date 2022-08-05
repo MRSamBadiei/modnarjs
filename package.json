@@ -1,6 +1,6 @@
 {
   "name": "modnarjs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "╭─ ~                                                                     ✔ ─╮ ╰─ git remote -v                                                             ─╯ fatal: not a git repository (or any of the parent directories): .git",
   "main": "modnarjs.js",
   "scripts": {
