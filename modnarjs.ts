@@ -1,4 +1,5 @@
-import { m, f, l } from "./src/Names/names";
+import { m, f, l } from "./src/names/name";
+/*
 import {
   adjective,
   adverb,
@@ -10,7 +11,8 @@ import {
   possessive_adjectives,
   possessive_pronouns,
 } from "./src/Words/words";
-import { animals } from "./src/Animals/animals";
+*/
+import { animals } from "./src/animals/animal";
 import {
   I_Color_Format,
   I_Name_Prefix,
@@ -24,7 +26,7 @@ import {
   I_phone_fromat,
   I_Card_Visa_Valid,
   I_Card_Default,
-} from "./types/types";
+} from "./types/type";
 
 class Randomly {
   protected readonly MALE: string = "MALE";
@@ -131,6 +133,7 @@ class Randomly {
     return result;
   }
   // Words
+  /*
   protected verb(): string {
     return verb[this.rnd(verb)];
   }
@@ -158,6 +161,7 @@ class Randomly {
   protected possessivePronouns(): string {
     return possessive_pronouns[this.rnd(possessive_pronouns)];
   }
+  */
 }
 
 class Name extends Randomly {
@@ -233,7 +237,8 @@ class Sentence extends Randomly {
   }
   // test
   public simple(): string {
-    return `${this.subjectPronouns()} ${this.verb()} icrecream`;
+    //return `${this.subjectPronouns()} ${this.verb()} icrecream`;
+    return "this is not working yet :)";
   }
 }
 
@@ -366,10 +371,7 @@ const name = new Name();
 const animal = new Animal();
 const color = new Color();
 const phone = new Phone();
-const sentence = new Sentence();
+//const sentence = new Sentence();
 const card = new CreditCard();
 
-console.log(card.visaCard());
-
-export { name, animal, color, phone, sentence, card };
-
+export { name, animal, color, phone, card };

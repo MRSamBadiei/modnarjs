@@ -1,0 +1,20 @@
+{
+  "name": "modnarjs",
+  "version": "1.0.1",
+  "description": "╭─ ~                                                                     ✔ ─╮ ╰─ git remote -v                                                             ─╯ fatal: not a git repository (or any of the parent directories): .git",
+  "main": "modnarjs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MRSamBadiei/modnarjs.git"
+  },
+  "keywords": [],
+  "author": "Sam Badiei",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MRSamBadiei/modnarjs/issues"
+  },
+  "homepage": "https://github.com/MRSamBadiei/modnarjs#readme"
+}
