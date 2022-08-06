@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-exports.net = exports.card = exports.phone = exports.color = exports.animal = exports.name = void 0;
+exports.country = exports.net = exports.card = exports.phone = exports.color = exports.animal = exports.name = void 0;
 var name_1 = require("./src/names/name");
 /*
 import {
@@ -30,6 +30,8 @@ import {
   possessive_pronouns,
 } from "./src/Words/words";
 */
+var domain_1 = require("./src/net/domain");
+var country_1 = require("./src/country/country");
 var animal_1 = require("./src/animals/animal");
 // test funcs
 function log(param) {
@@ -421,7 +423,6 @@ var Net = /** @class */ (function (_super) {
             "aol.com",
             "mac.com",
         ];
-        _this.domain = [".com"];
         return _this;
     }
     Net.prototype.classTypeNum = function (classType) {
@@ -459,8 +460,25 @@ var Net = /** @class */ (function (_super) {
             ? "".concat(this.classTypeNum(classType), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(1, 255))
             : "".concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255));
     };
+    /**
+     * 1487 top-level domains
+     * @returns string
+     */
+    Net.prototype.domain = function () {
+        return domain_1.domain_arr[this.rnd(domain_1.domain_arr)].toLowerCase();
+    };
     return Net;
 }(Name));
+var Country = /** @class */ (function (_super) {
+    __extends(Country, _super);
+    function Country() {
+        return _super.call(this) || this;
+    }
+    Country.prototype.country = function () {
+        return country_1.country_arr[this.rnd(country_1.country_arr)];
+    };
+    return Country;
+}(Randomly));
 var name = new Name();
 exports.name = name;
 var animal = new Animal();
@@ -474,3 +492,5 @@ var card = new CreditCard();
 exports.card = card;
 var net = new Net();
 exports.net = net;
+var country = new Country();
+exports.country = country;

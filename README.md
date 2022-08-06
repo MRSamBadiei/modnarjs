@@ -127,12 +127,20 @@ modnarjs.card.amexCard(): I_Card_Visa
 ```typescript
 modnarjs.card.isValid(creaditCardNumber: string): I_Card_Visa_Valid
 // e.g.
-modnarjs.card.isValid("4775876705860201") => true
+modnarjs.card.isValid("4775876705860201")
+/* =>
+{
+  isValid: true,
+  needToBeValid: undefined
+}
+*/
 ```
 
 ## Net
 
 ### email
+
+> i'm still working on email performance
 
 ```typescript
 modnarjs.net.email({
@@ -143,15 +151,34 @@ modnarjs.net.email({
 }): string
 // e.g.
 modnarjs.net.email()
-
 ```
 
 ### ipv4
 
 ```typescript
 modnarjs.net.ipv4(classType?:string): string
-// Classtypes A,B,C,D,E
+// Classtypes "A","B","C","D","E"
 // e.g.
-modnarjs.net.ipv4("A") // => 42.29.140.187
-modnarjs.net.ipv4() // => 164.198.12.127
+modnarjs.net.ipv4("A") // => "42.29.140.187"
+modnarjs.net.ipv4() // => "164.198.12.127"
+```
+
+### domain
+
+> 1487 top-level domains
+
+```typescript
+modnarjs.net.domain(): string
+// e.g.
+modnarjs.net.domain() // => "com"
+```
+
+## Country
+
+### country
+
+```typescript
+modnarjs.country.country(): string
+// e.g.
+modnarjs.country.country() // => "Egypt"
 ```

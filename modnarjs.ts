@@ -12,6 +12,8 @@ import {
   possessive_pronouns,
 } from "./src/Words/words";
 */
+import { domain_arr } from "./src/net/domain";
+import { country_arr } from "./src/country/country";
 import { animals } from "./src/animals/animal";
 import {
   I_Name_Lname,
@@ -416,7 +418,6 @@ class Net extends Name {
     "aol.com",
     "mac.com",
   ];
-  private domain: arrStr = [".com"];
   constructor() {
     super();
   }
@@ -461,6 +462,23 @@ class Net extends Name {
           255
         )}.${this.numRnd(0, 255)}`;
   }
+
+  /**
+   * 1487 top-level domains
+   * @returns string
+   */
+  public domain(): string {
+    return domain_arr[this.rnd(domain_arr)].toLowerCase();
+  }
+}
+
+class Country extends Randomly {
+  constructor() {
+    super();
+  }
+  public country(): string {
+    return country_arr[this.rnd(country_arr)];
+  }
 }
 
 const name = new Name();
@@ -470,5 +488,6 @@ const phone = new Phone();
 //const sentence = new Sentence();
 const card = new CreditCard();
 const net = new Net();
+const country = new Country();
 
-export { name, animal, color, phone, card, net };
+export { name, animal, color, phone, card, net, country };
