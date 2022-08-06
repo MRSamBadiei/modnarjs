@@ -23,8 +23,14 @@ import {
   I_Color_RGB,
   I_Card_Visa_Valid,
   I_Card_Default,
+  I_Net_Email,
 } from "./types/type";
 
+// test funcs
+function log(param: any): void {
+  console.log(param);
+}
+//
 class Randomly {
   protected readonly MALE: string = "MALE";
   protected readonly FEMALE: string = "FEMALE";
@@ -32,7 +38,7 @@ class Randomly {
   protected readonly DATE: Date = new Date();
   // DEFAULT FUNCS
   // * rnd random array index
-  private rnd(arr: arrStr): number {
+  protected rnd(arr: arrStr): number {
     return Math.floor(Math.random() * (arr.length - 1));
   }
   // rnd number
@@ -185,7 +191,7 @@ class Name extends Randomly {
       data?.name !== undefined
         ? data.name
         : this.createName(_gender, _start, _end);
-    return _name;
+    return _name.toLowerCase();
   }
   /**
    *
@@ -202,7 +208,7 @@ class Name extends Randomly {
     const _end: strUnd = data?.end ?? undefined;
     const _name: strUnd =
       data?.name !== undefined ? data.name : this.createLastname(_start, _end);
-    return _name;
+    return _name.toLowerCase();
   }
   /**
    *
@@ -398,11 +404,71 @@ class CreditCard extends Name {
   }
 }
 
+class Net extends Name {
+  private provider: arrStr = [
+    "gmail.com",
+    "yahoo.com",
+    "hotmail.com",
+    "msn.com",
+    "outlook.com",
+    "live.com",
+    "me.com",
+    "aol.com",
+    "mac.com",
+  ];
+  private domain: arrStr = [".com"];
+  constructor() {
+    super();
+  }
+  private classTypeNum(classType: string): string {
+    switch (classType.toUpperCase()) {
+      case "A":
+        return `${this.numRnd(1, 127)}`;
+      case "B":
+        return `${this.numRnd(128, 191)}`;
+      case "C":
+        return `${this.numRnd(192, 223)}`;
+      case "D":
+        return `${this.numRnd(224, 239)}`;
+      case "E":
+        return `${this.numRnd(240, 255)}`;
+      default:
+        return `ERROR: WRONG CLASS`;
+    }
+  }
+  public email(data?: I_Net_Email): string {
+    const firstName: strUnd = data?.firstName ?? this.fName();
+    const lastName: strUnd = data?.lastName ?? this.lName();
+    const company: strUnd =
+      data?.company ?? this.provider[this.rnd(this.provider)];
+    const chars: boolean = data?.useSpecialChar ?? false;
+    return `${firstName}${lastName}@${company}.com`;
+  }
+  /**
+   *
+   * @param classType - A,B,C,D,E
+   * @type {?string}
+   * @returns string
+   */
+  public ipv4(classType?: string): string {
+    return classType !== undefined
+      ? `${this.classTypeNum(classType)}.${this.numRnd(0, 255)}.${this.numRnd(
+          0,
+          255
+        )}.${this.numRnd(1, 255)}`
+      : `${this.numRnd(0, 255)}.${this.numRnd(0, 255)}.${this.numRnd(
+          0,
+          255
+        )}.${this.numRnd(0, 255)}`;
+  }
+}
+
 const name = new Name();
 const animal = new Animal();
 const color = new Color();
 const phone = new Phone();
 //const sentence = new Sentence();
 const card = new CreditCard();
+const net = new Net();
 
-export { name, animal, color, phone, card };
+export { name, animal, color, phone, card, net };

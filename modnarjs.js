@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-exports.card = exports.phone = exports.color = exports.animal = exports.name = void 0;
+exports.net = exports.card = exports.phone = exports.color = exports.animal = exports.name = void 0;
 var name_1 = require("./src/names/name");
 /*
 import {
@@ -31,6 +31,11 @@ import {
 } from "./src/Words/words";
 */
 var animal_1 = require("./src/animals/animal");
+// test funcs
+function log(param) {
+    console.log(param);
+}
+//
 var Randomly = /** @class */ (function () {
     function Randomly() {
         this.MALE = "MALE";
@@ -191,7 +196,7 @@ var Name = /** @class */ (function (_super) {
         var _name = (data === null || data === void 0 ? void 0 : data.name) !== undefined
             ? data.name
             : this.createName(_gender, _start, _end);
-        return _name;
+        return _name.toLowerCase();
     };
     /**
      *
@@ -208,7 +213,7 @@ var Name = /** @class */ (function (_super) {
         var _start = (_a = data === null || data === void 0 ? void 0 : data.start) !== null && _a !== void 0 ? _a : undefined;
         var _end = (_b = data === null || data === void 0 ? void 0 : data.end) !== null && _b !== void 0 ? _b : undefined;
         var _name = (data === null || data === void 0 ? void 0 : data.name) !== undefined ? data.name : this.createLastname(_start, _end);
-        return _name;
+        return _name.toLowerCase();
     };
     /**
      *
@@ -401,6 +406,61 @@ var CreditCard = /** @class */ (function (_super) {
     };
     return CreditCard;
 }(Name));
+var Net = /** @class */ (function (_super) {
+    __extends(Net, _super);
+    function Net() {
+        var _this = _super.call(this) || this;
+        _this.provider = [
+            "gmail.com",
+            "yahoo.com",
+            "hotmail.com",
+            "msn.com",
+            "outlook.com",
+            "live.com",
+            "me.com",
+            "aol.com",
+            "mac.com",
+        ];
+        _this.domain = [".com"];
+        return _this;
+    }
+    Net.prototype.classTypeNum = function (classType) {
+        switch (classType.toUpperCase()) {
+            case "A":
+                return "".concat(this.numRnd(1, 127));
+            case "B":
+                return "".concat(this.numRnd(128, 191));
+            case "C":
+                return "".concat(this.numRnd(192, 223));
+            case "D":
+                return "".concat(this.numRnd(224, 239));
+            case "E":
+                return "".concat(this.numRnd(240, 255));
+            default:
+                return "ERROR: WRONG CLASS";
+        }
+    };
+    Net.prototype.email = function (data) {
+        var _a, _b, _c, _d;
+        var firstName = (_a = data === null || data === void 0 ? void 0 : data.firstName) !== null && _a !== void 0 ? _a : this.fName();
+        var lastName = (_b = data === null || data === void 0 ? void 0 : data.lastName) !== null && _b !== void 0 ? _b : this.lName();
+        var company = (_c = data === null || data === void 0 ? void 0 : data.company) !== null && _c !== void 0 ? _c : this.provider[this.rnd(this.provider)];
+        var chars = (_d = data === null || data === void 0 ? void 0 : data.useSpecialChar) !== null && _d !== void 0 ? _d : false;
+        return "".concat(firstName).concat(lastName, "@").concat(company, ".com");
+    };
+    /**
+     *
+     * @param classType - A,B,C,D,E
+     * @type {?string}
+     * @returns string
+     */
+    Net.prototype.ipv4 = function (classType) {
+        return classType !== undefined
+            ? "".concat(this.classTypeNum(classType), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(1, 255))
+            : "".concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255));
+    };
+    return Net;
+}(Name));
 var name = new Name();
 exports.name = name;
 var animal = new Animal();
@@ -412,3 +472,5 @@ exports.phone = phone;
 //const sentence = new Sentence();
 var card = new CreditCard();
 exports.card = card;
+var net = new Net();
+exports.net = net;

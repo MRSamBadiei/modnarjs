@@ -127,3 +127,36 @@ modnarjs.card.isValid(creaditCardNumber: string): I_Card_Visa_Valid
 // e.g.
 modnarjs.card.isValid("4775876705860201") => true
 ```
+
+## Net
+
+### email
+
+```typescript
+modnarjs.net.email({
+  firstName?: string,
+  lastName?: string,
+  company?: string,
+  useSpecialChar?: boolean
+}): I_Card_Visa
+// e.g.
+modnarjs.net.email()
+/*
+{
+  creditNumber: 4775876705860201,
+  cvv: 712,
+  holder: 'WENDELL CMIEL',
+  expire: '15/24'
+}
+*/
+```
+
+### ipv4
+
+```typescript
+modnarjs.net.ipv4(classType?:string): I_Card_Visa
+// Classtypes A,B,C,D,E
+// e.g.
+modnarjs.net.ipv4("A") // => 42.29.140.187
+modnarjs.net.ipv4() // => 164.198.12.127
+```

@@ -42,6 +42,14 @@ interface I_Card_Visa_Valid {
   needToBeValid: string | undefined;
 }
 
+// Net
+interface I_Net_Email {
+  firstName?: string;
+  lastName?: string;
+  company?: string;
+  useSpecialChar?: boolean;
+}
+
 export {
   I_Color_RGB,
   I_Card_Visa,
@@ -49,6 +57,7 @@ export {
   I_Card_Default,
   I_Name_Lname,
   I_Name_Fname,
+  I_Net_Email,
   strUnd,
   arrNum,
   arrStr,
