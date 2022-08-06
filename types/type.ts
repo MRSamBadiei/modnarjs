@@ -16,15 +16,7 @@ interface I_Name_Lname {
   end?: strUnd;
 }
 
-interface I_Name_Prefix {
-  gender?: strUnd;
-}
-
 // Colors
-interface I_Color_Format {
-  format?: string;
-}
-
 interface I_Color_RGB {
   r: number;
   g: number;
@@ -32,10 +24,6 @@ interface I_Color_RGB {
 }
 
 // Phones
-
-interface I_phone_fromat {
-  format?: string;
-}
 
 // Cards
 interface I_Card_Default {
@@ -55,17 +43,13 @@ interface I_Card_Visa_Valid {
 }
 
 export {
-  I_Color_Format,
   I_Color_RGB,
   I_Card_Visa,
   I_Card_Visa_Valid,
   I_Card_Default,
-  I_phone_fromat,
-  I_Name_Prefix,
   I_Name_Lname,
   I_Name_Fname,
   strUnd,
   arrNum,
   arrStr,
 };
-

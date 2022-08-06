@@ -45,11 +45,11 @@ modnarjs.name.lName({start: "h"}) // ==> "HAGGSTROM"
 ### Prefix
 
 ```typescript
-modnarjs.name.prefix({
+modnarjs.name.prefix(
     gender?: string | undefined
-}): string
+): string
 // e.g.
-modnarjs.name.lName({gender: "male"}) // ==> "Mr."
+modnarjs.name.prefix(gender: "male") // ==> "Mr."
 ```
 
 ## Animals
@@ -67,10 +67,10 @@ modnarjs.animal.kind() // ==> "dog"
 ### color
 
 ```typescript
-modnarjs.color.color({format?:string}): number[] | undefined | string
+modnarjs.color.color(format?:string): number[] | undefined | string
 // formats => "rgb", "rgba", "hex" - (default is "rgb")
 // e.g.
-modnarjs.color.color({format:'hex'}) // ==> "1e1e1e"
+modnarjs.color.color(format:'hex') // ==> "1e1e1e"
 ```
 
 ## Phones
@@ -78,9 +78,9 @@ modnarjs.color.color({format:'hex'}) // ==> "1e1e1e"
 ### phone
 
 ```typescript
-modnarjs.phone.phone({format?:string}): string
+modnarjs.phone.phone(format?:string): string
 // e.g.
-modnarjs.phone.phone({format:"### ### ###"}) // ==> "123 645 123"
+modnarjs.phone.phone(format:"### ### ###") // ==> "123 645 123"
 modnarjs.phone.phone() // ==> "1+ 645 123 4343"
 ```
 

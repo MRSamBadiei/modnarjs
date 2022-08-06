@@ -14,8 +14,6 @@ import {
 */
 import { animals } from "./src/animals/animal";
 import {
-  I_Color_Format,
-  I_Name_Prefix,
   I_Name_Lname,
   I_Name_Fname,
   I_Card_Visa,
@@ -23,7 +21,6 @@ import {
   arrNum,
   arrStr,
   I_Color_RGB,
-  I_phone_fromat,
   I_Card_Visa_Valid,
   I_Card_Default,
 } from "./types/type";
@@ -168,6 +165,17 @@ class Name extends Randomly {
   constructor() {
     super();
   }
+  /**
+   *
+   * @param data - is a object contains
+   * {
+   * name?: string | undefined,
+   * gender?: string | undefined,
+   * start?: string | undefined,
+   * end?: string | undefined
+   * }
+   * @returns string
+   */
   public fName(data?: I_Name_Fname): string {
     const _start: strUnd = data?.start ?? undefined;
     const _end: strUnd = data?.end ?? undefined;
@@ -179,6 +187,16 @@ class Name extends Randomly {
         : this.createName(_gender, _start, _end);
     return _name;
   }
+  /**
+   *
+   * @param data - is a object contains
+   * {
+   * name?: string | undefined,
+   * start?: string | undefined,
+   * end?: string | undefined
+   * }
+   * @returns string
+   */
   public lName(data?: I_Name_Lname): string {
     const _start: strUnd = data?.start ?? undefined;
     const _end: strUnd = data?.end ?? undefined;
@@ -186,10 +204,16 @@ class Name extends Randomly {
       data?.name !== undefined ? data.name : this.createLastname(_start, _end);
     return _name;
   }
-  public prefix(data?: I_Name_Prefix): string {
+  /**
+   *
+   * @param gender
+   * @type {?string}
+   * @returns string
+   */
+  public prefix(gender?: string): string {
     const result: string =
-      data?.gender !== undefined
-        ? data.gender === this.MALE
+      gender !== undefined
+        ? gender === this.MALE
           ? "Mr."
           : "Ms."
         : this.createGender() === this.MALE
@@ -204,6 +228,10 @@ class Animal extends Randomly {
   constructor() {
     super();
   }
+  /**
+   *
+   * @returns string
+   */
   public kind(): string {
     return this.createAnimalName();
   }
@@ -213,9 +241,15 @@ class Color extends Randomly {
   constructor() {
     super();
   }
-  public color(data?: I_Color_Format) {
-    return data?.format !== undefined
-      ? this.createColor(data.format)
+  /**
+   *
+   * @param format
+   * @type {?string}
+   * @returns number[] | undefined | string
+   */
+  public color(format?: string) {
+    return format !== undefined
+      ? this.createColor(format)
       : this.createColor("RGB");
   }
 }
@@ -224,9 +258,15 @@ class Phone extends Randomly {
   constructor() {
     super();
   }
-  public phone(data?: I_phone_fromat): string {
-    return data?.format !== undefined
-      ? this.createPhone(data.format)
+  /**
+   *
+   * @param format
+   * @type {?string}
+   * @returns string
+   */
+  public phone(format?: string): string {
+    return format !== undefined
+      ? this.createPhone(format)
       : this.createPhone(this.PHONE_DEFAULT);
   }
 }
@@ -279,6 +319,10 @@ class CreditCard extends Name {
       max = 10 ** length - 1;
     return this.numRnd(min, max);
   }
+  /**
+   *
+   * @returns object
+   */
   public visaCard(): I_Card_Visa {
     return {
       creditNumber: this.creditNumber(this.VISA_START),
@@ -287,6 +331,10 @@ class CreditCard extends Name {
       expire: this.expire(),
     };
   }
+  /**
+   *
+   * @returns object
+   */
   public masterCard(): I_Card_Visa {
     return {
       creditNumber: this.creditNumber(
@@ -297,6 +345,10 @@ class CreditCard extends Name {
       expire: this.expire(),
     };
   }
+  /**
+   *
+   * @returns object
+   */
   public amexCard(): I_Card_Visa {
     return {
       creditNumber: this.creditNumber(
@@ -308,6 +360,11 @@ class CreditCard extends Name {
     };
   }
   // luhn algorithm
+  /**
+   * @param creaditCardNumber
+   * @type {!string}
+   * @returns object
+   */
   public isValid(creaditCardNumber: string): I_Card_Visa_Valid {
     const result: arrStr = [];
     const length = creaditCardNumber.length;
@@ -340,32 +397,6 @@ class CreditCard extends Name {
       : { isValid: false, needToBeValid: (10 - (final % 10)).toString() };
   }
 }
-
-/*
-const randomly = new Color();
-let x = 0;
-while (x < 1000000) {
-  console.log(x, randomly.color());
-  x++;
-}
-*/
-
-/* 
-const randomly = new CreditCard();
-for (let i = 0; i < 10000000; i++) {
-  const data = randomly.amexCard();
-  const valid = randomly.isValid(data.creditNumber.toString());
-  console.log(valid.isValid, data);
-}
-Test Time
-console.time("this");
-for (let i = 0; i < 100; i++) {
-  randomly.visa();
-  console.log(i);
-  console.clear();
-}
-console.timeEnd("this");
- */
 
 const name = new Name();
 const animal = new Animal();

@@ -172,6 +172,17 @@ var Name = /** @class */ (function (_super) {
     function Name() {
         return _super.call(this) || this;
     }
+    /**
+     *
+     * @param data - is a object contains
+     * {
+     * name?: string | undefined,
+     * gender?: string | undefined,
+     * start?: string | undefined,
+     * end?: string | undefined
+     * }
+     * @returns string
+     */
     Name.prototype.fName = function (data) {
         var _a, _b;
         var _start = (_a = data === null || data === void 0 ? void 0 : data.start) !== null && _a !== void 0 ? _a : undefined;
@@ -182,6 +193,16 @@ var Name = /** @class */ (function (_super) {
             : this.createName(_gender, _start, _end);
         return _name;
     };
+    /**
+     *
+     * @param data - is a object contains
+     * {
+     * name?: string | undefined,
+     * start?: string | undefined,
+     * end?: string | undefined
+     * }
+     * @returns string
+     */
     Name.prototype.lName = function (data) {
         var _a, _b;
         var _start = (_a = data === null || data === void 0 ? void 0 : data.start) !== null && _a !== void 0 ? _a : undefined;
@@ -189,9 +210,15 @@ var Name = /** @class */ (function (_super) {
         var _name = (data === null || data === void 0 ? void 0 : data.name) !== undefined ? data.name : this.createLastname(_start, _end);
         return _name;
     };
-    Name.prototype.prefix = function (data) {
-        var result = (data === null || data === void 0 ? void 0 : data.gender) !== undefined
-            ? data.gender === this.MALE
+    /**
+     *
+     * @param gender
+     * @type {?string}
+     * @returns string
+     */
+    Name.prototype.prefix = function (gender) {
+        var result = gender !== undefined
+            ? gender === this.MALE
                 ? "Mr."
                 : "Ms."
             : this.createGender() === this.MALE
@@ -206,6 +233,10 @@ var Animal = /** @class */ (function (_super) {
     function Animal() {
         return _super.call(this) || this;
     }
+    /**
+     *
+     * @returns string
+     */
     Animal.prototype.kind = function () {
         return this.createAnimalName();
     };
@@ -216,9 +247,15 @@ var Color = /** @class */ (function (_super) {
     function Color() {
         return _super.call(this) || this;
     }
-    Color.prototype.color = function (data) {
-        return (data === null || data === void 0 ? void 0 : data.format) !== undefined
-            ? this.createColor(data.format)
+    /**
+     *
+     * @param format
+     * @type {?string}
+     * @returns number[] | undefined | string
+     */
+    Color.prototype.color = function (format) {
+        return format !== undefined
+            ? this.createColor(format)
             : this.createColor("RGB");
     };
     return Color;
@@ -228,9 +265,15 @@ var Phone = /** @class */ (function (_super) {
     function Phone() {
         return _super.call(this) || this;
     }
-    Phone.prototype.phone = function (data) {
-        return (data === null || data === void 0 ? void 0 : data.format) !== undefined
-            ? this.createPhone(data.format)
+    /**
+     *
+     * @param format
+     * @type {?string}
+     * @returns string
+     */
+    Phone.prototype.phone = function (format) {
+        return format !== undefined
+            ? this.createPhone(format)
             : this.createPhone(this.PHONE_DEFAULT);
     };
     return Phone;
@@ -286,6 +329,10 @@ var CreditCard = /** @class */ (function (_super) {
         var min = Math.pow(10, (length - 1)), max = Math.pow(10, length) - 1;
         return this.numRnd(min, max);
     };
+    /**
+     *
+     * @returns object
+     */
     CreditCard.prototype.visaCard = function () {
         return {
             creditNumber: this.creditNumber(this.VISA_START),
@@ -294,6 +341,10 @@ var CreditCard = /** @class */ (function (_super) {
             expire: this.expire()
         };
     };
+    /**
+     *
+     * @returns object
+     */
     CreditCard.prototype.masterCard = function () {
         return {
             creditNumber: this.creditNumber(this.MASTER_START[this.numRnd(0, this.MASTER_START.length)]),
@@ -302,6 +353,10 @@ var CreditCard = /** @class */ (function (_super) {
             expire: this.expire()
         };
     };
+    /**
+     *
+     * @returns object
+     */
     CreditCard.prototype.amexCard = function () {
         return {
             creditNumber: this.creditNumber(this.AMEX_START[this.numRnd(0, this.AMEX_START.length)]),
@@ -311,6 +366,11 @@ var CreditCard = /** @class */ (function (_super) {
         };
     };
     // luhn algorithm
+    /**
+     * @param creaditCardNumber
+     * @type {!string}
+     * @returns object
+     */
     CreditCard.prototype.isValid = function (creaditCardNumber) {
         var result = [];
         var length = creaditCardNumber.length;
@@ -341,30 +401,6 @@ var CreditCard = /** @class */ (function (_super) {
     };
     return CreditCard;
 }(Name));
-/*
-const randomly = new Color();
-let x = 0;
-while (x < 1000000) {
-  console.log(x, randomly.color());
-  x++;
-}
-*/
-/*
-const randomly = new CreditCard();
-for (let i = 0; i < 10000000; i++) {
-  const data = randomly.amexCard();
-  const valid = randomly.isValid(data.creditNumber.toString());
-  console.log(valid.isValid, data);
-}
-Test Time
-console.time("this");
-for (let i = 0; i < 100; i++) {
-  randomly.visa();
-  console.log(i);
-  console.clear();
-}
-console.timeEnd("this");
- */
 var name = new Name();
 exports.name = name;
 var animal = new Animal();
