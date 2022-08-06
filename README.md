@@ -1,7 +1,9 @@
-# Hi everyone, how is it going?
-
-> well this is javascript/typescript random generator
-> such as firstname, lastname, phone number, Credit Card and ....
+<div align="center">
+  <img src="./src/img/logo.png" width="200"/>
+  <p>generate all realistic data you need</p>
+  <a href="https://www.npmjs.com/package/modnarjs"><img src="https://badgen.net/npm/v/modnarjs"/></a>
+  <a href="https://www.npmjs.com/package/modnarjs"><img src="https://badgen.net/npm/dm/modnarjs"/></a>
+</div>
 
 ## Installation
 
@@ -138,23 +140,16 @@ modnarjs.net.email({
   lastName?: string,
   company?: string,
   useSpecialChar?: boolean
-}): I_Card_Visa
+}): string
 // e.g.
 modnarjs.net.email()
-/*
-{
-  creditNumber: 4775876705860201,
-  cvv: 712,
-  holder: 'WENDELL CMIEL',
-  expire: '15/24'
-}
-*/
+
 ```
 
 ### ipv4
 
 ```typescript
-modnarjs.net.ipv4(classType?:string): I_Card_Visa
+modnarjs.net.ipv4(classType?:string): string
 // Classtypes A,B,C,D,E
 // e.g.
 modnarjs.net.ipv4("A") // => 42.29.140.187

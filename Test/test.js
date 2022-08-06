@@ -1,3 +1,3 @@
 const modnarjs = require("../modnarjs");
 
-modnarjs.name.fName({});
+modnarjs.name.fName();
