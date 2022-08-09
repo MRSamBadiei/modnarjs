@@ -26,6 +26,11 @@ import {
   I_Card_Visa_Valid,
   I_Card_Default,
   I_Net_Email,
+  I_Number_Float,
+  I_Number_Int,
+  I_NAME_CFG,
+  I_NAME_CFG_U,
+  I_Number_Array,
 } from "./types/type";
 
 // test funcs
@@ -38,6 +43,11 @@ class Randomly {
   protected readonly FEMALE: string = "FEMALE";
   protected readonly PHONE_DEFAULT: string = "+1-###-555-####";
   protected readonly DATE: Date = new Date();
+  protected NAME_CFG: I_NAME_CFG = {
+    F_NAME: f,
+    M_NAME: m,
+    LAST_NAME: l,
+  };
   // DEFAULT FUNCS
   // * rnd random array index
   protected rnd(arr: arrStr): number {
@@ -49,7 +59,9 @@ class Randomly {
   }
   // name
   protected createName(gender: string, start: strUnd, end: strUnd): string {
-    const listOfNames: arrStr = gender === this.MALE ? m : f;
+    const listOfNames: arrStr =
+      gender === this.MALE ? this.NAME_CFG.M_NAME : this.NAME_CFG.F_NAME;
+
     if (start !== undefined || end !== undefined) {
       const reg = new RegExp(`^${start ?? ""}.*${end ?? ""}$`, "ig");
       const arr: arrNum = [];
@@ -64,30 +76,23 @@ class Randomly {
 
       arr.length > 0 ? "" : console.log(`ERROR: NO MATCH FOUND`);
       return arr.length > 0 ? listOfNames[arr[index]] : "";
-    } else {
-      const index =
-        gender === this.MALE
-          ? Math.floor(Math.random() * (m.length - 1))
-          : Math.floor(Math.random() * (f.length - 1));
-      return listOfNames[index];
     }
+    return listOfNames[this.rnd(listOfNames)];
   }
   protected createLastname(start: strUnd, end: strUnd): string {
     if (start !== undefined || end !== undefined) {
       const reg = new RegExp(`^${start ?? ""}.*${end ?? ""}$`, "ig");
       const arr: arrNum = [];
-      l.forEach((value, index) => {
+      this.NAME_CFG.LAST_NAME.forEach((value, index) => {
         if (reg.test(value)) {
           arr.push(index);
         }
       });
       const index = Math.floor(Math.random() * (arr.length - 1));
       arr.length > 0 ? "" : console.log(`ERROR: NO MATCH FOUND`);
-      return arr.length > 0 ? l[arr[index]] : "";
-    } else {
-      const index = Math.floor(Math.random() * (l.length - 1));
-      return l[index];
+      return arr.length > 0 ? this.NAME_CFG.LAST_NAME[arr[index]] : "";
     }
+    return this.NAME_CFG.LAST_NAME[this.rnd(this.NAME_CFG.LAST_NAME)];
   }
   protected createGender(): string {
     const rnd = Math.round(Math.random());
@@ -174,6 +179,17 @@ class Name extends Randomly {
     super();
   }
   /**
+   * @param data - contains F_NAME, M_NAME, L_NAME
+   * @F_Name array of female names
+   * @M_Name array of male names
+   * @L_Name array of last names
+   */
+  public config(data: I_NAME_CFG_U): void {
+    this.NAME_CFG.F_NAME = data.F_NAME ?? f;
+    this.NAME_CFG.M_NAME = data.M_NAME ?? m;
+    this.NAME_CFG.LAST_NAME = data.LAST_NAME ?? l;
+  }
+  /**
    *
    * @param data - is a object contains
    * {
@@ -188,7 +204,9 @@ class Name extends Randomly {
     const _start: strUnd = data?.start ?? undefined;
     const _end: strUnd = data?.end ?? undefined;
     const _gender: strUnd =
-      data?.gender !== undefined ? data?.gender : this.createGender();
+      data?.gender !== undefined
+        ? data?.gender.toUpperCase()
+        : this.createGender();
     const _name: strUnd =
       data?.name !== undefined
         ? data.name
@@ -214,8 +232,7 @@ class Name extends Randomly {
   }
   /**
    *
-   * @param gender
-   * @type {?string}
+   * @param gender - "male" or "female"
    * @returns string
    */
   public prefix(gender?: string): string {
@@ -309,7 +326,7 @@ class CreditCard extends Name {
       result += rnd.toString();
     }
     const checksum = this.isValid(result);
-    result += checksum.isValid ? "0" : checksum.needToBeValid;
+    result += checksum.isValid ? "0" : checksum.checksum;
     return parseInt(result);
   }
   private holder(): string {
@@ -401,8 +418,8 @@ class CreditCard extends Name {
     }
 
     return final % 10 === 0
-      ? { isValid: true, needToBeValid: undefined }
-      : { isValid: false, needToBeValid: (10 - (final % 10)).toString() };
+      ? { isValid: true, checksum: undefined }
+      : { isValid: false, checksum: (10 - (final % 10)).toString() };
   }
 }
 
@@ -481,13 +498,79 @@ class Country extends Randomly {
   }
 }
 
-const name = new Name();
-const animal = new Animal();
-const color = new Color();
-const phone = new Phone();
-//const sentence = new Sentence();
-const card = new CreditCard();
-const net = new Net();
-const country = new Country();
+class Number extends Randomly {
+  private readonly DEFAULTS = {
+    min: 1,
+    max: 1000,
+    int: "INT",
+    float: "FLOAT",
+  };
+  constructor() {
+    super();
+  }
+  /**
+   *
+   * @param data
+   * @type {min?: number = 1, max?: number = 1000, decimal?: number = 2 }
+   * @returns number
+   */
+  public float(data?: I_Number_Float): number {
+    const _min: number = data?.min ?? this.DEFAULTS.min;
+    const _max: number = data?.max ?? this.DEFAULTS.max;
+    const _decimal: number = data?.decimal ?? 2;
+    return parseFloat((Math.random() * (_max - _min) + _min).toFixed(_decimal));
+  }
+  /**
+   *
+   * @param data
+   * @type {min?: number = 1, max?: number = 1000}
+   * @returns number
+   */
+  public int(data?: I_Number_Int): number {
+    const _min: number = data?.min ?? this.DEFAULTS.min;
+    const _max: number = data?.max ?? this.DEFAULTS.max;
+    return this.numRnd(_min, _max);
+  }
+  /**
+   *
+   * @param data
+   * @type {min?: number = 1, max?: number = 1000,decimal?: number; type: string; length: number;}
+   * @returns number
+   */
+  public array(data: I_Number_Array): number[] {
+    const arr: number[] = [];
+    const type = data?.type.toUpperCase();
+    switch (type) {
+      case this.DEFAULTS.int:
+        for (let i = 0; i < data.length; i++) {
+          arr[i] = this.int({ min: data.min, max: data.max });
+        }
+        break;
+      case this.DEFAULTS.float:
+        for (let i = 0; i < data.length; i++) {
+          arr[i] = this.float({
+            min: data.min,
+            max: data.max,
+            decimal: data.decimal,
+          });
+        }
+        break;
+    }
+    return arr;
+  }
+}
 
-export { name, animal, color, phone, card, net, country };
+//const sentence = new Sentence();
+
+const exp = {
+  name: new Name(),
+  animal: new Animal(),
+  color: new Color(),
+  phone: new Phone(),
+  card: new CreditCard(),
+  net: new Net(),
+  country: new Country(),
+  number: new Number(),
+};
+
+export default exp;

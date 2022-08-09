@@ -15,7 +15,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-exports.country = exports.net = exports.card = exports.phone = exports.color = exports.animal = exports.name = void 0;
 var name_1 = require("./src/names/name");
 /*
 import {
@@ -44,6 +43,11 @@ var Randomly = /** @class */ (function () {
         this.FEMALE = "FEMALE";
         this.PHONE_DEFAULT = "+1-###-555-####";
         this.DATE = new Date();
+        this.NAME_CFG = {
+            F_NAME: name_1.f,
+            M_NAME: name_1.m,
+            LAST_NAME: name_1.l
+        };
         // Words
         /*
         protected verb(): string {
@@ -86,7 +90,7 @@ var Randomly = /** @class */ (function () {
     };
     // name
     Randomly.prototype.createName = function (gender, start, end) {
-        var listOfNames = gender === this.MALE ? name_1.m : name_1.f;
+        var listOfNames = gender === this.MALE ? this.NAME_CFG.M_NAME : this.NAME_CFG.F_NAME;
         if (start !== undefined || end !== undefined) {
             var reg_1 = new RegExp("^".concat(start !== null && start !== void 0 ? start : "", ".*").concat(end !== null && end !== void 0 ? end : "", "$"), "ig");
             var arr_1 = [];
@@ -99,30 +103,22 @@ var Randomly = /** @class */ (function () {
             arr_1.length > 0 ? "" : console.log("ERROR: NO MATCH FOUND");
             return arr_1.length > 0 ? listOfNames[arr_1[index]] : "";
         }
-        else {
-            var index = gender === this.MALE
-                ? Math.floor(Math.random() * (name_1.m.length - 1))
-                : Math.floor(Math.random() * (name_1.f.length - 1));
-            return listOfNames[index];
-        }
+        return listOfNames[this.rnd(listOfNames)];
     };
     Randomly.prototype.createLastname = function (start, end) {
         if (start !== undefined || end !== undefined) {
             var reg_2 = new RegExp("^".concat(start !== null && start !== void 0 ? start : "", ".*").concat(end !== null && end !== void 0 ? end : "", "$"), "ig");
             var arr_2 = [];
-            name_1.l.forEach(function (value, index) {
+            this.NAME_CFG.LAST_NAME.forEach(function (value, index) {
                 if (reg_2.test(value)) {
                     arr_2.push(index);
                 }
             });
             var index = Math.floor(Math.random() * (arr_2.length - 1));
             arr_2.length > 0 ? "" : console.log("ERROR: NO MATCH FOUND");
-            return arr_2.length > 0 ? name_1.l[arr_2[index]] : "";
+            return arr_2.length > 0 ? this.NAME_CFG.LAST_NAME[arr_2[index]] : "";
         }
-        else {
-            var index = Math.floor(Math.random() * (name_1.l.length - 1));
-            return name_1.l[index];
-        }
+        return this.NAME_CFG.LAST_NAME[this.rnd(this.NAME_CFG.LAST_NAME)];
     };
     Randomly.prototype.createGender = function () {
         var rnd = Math.round(Math.random());
@@ -180,6 +176,18 @@ var Name = /** @class */ (function (_super) {
         return _super.call(this) || this;
     }
     /**
+     * @param data - contains F_NAME, M_NAME, L_NAME
+     * @F_Name array of female names
+     * @M_Name array of male names
+     * @L_Name array of last names
+     */
+    Name.prototype.config = function (data) {
+        var _a, _b, _c;
+        this.NAME_CFG.F_NAME = (_a = data.F_NAME) !== null && _a !== void 0 ? _a : name_1.f;
+        this.NAME_CFG.M_NAME = (_b = data.M_NAME) !== null && _b !== void 0 ? _b : name_1.m;
+        this.NAME_CFG.LAST_NAME = (_c = data.LAST_NAME) !== null && _c !== void 0 ? _c : name_1.l;
+    };
+    /**
      *
      * @param data - is a object contains
      * {
@@ -194,7 +202,9 @@ var Name = /** @class */ (function (_super) {
         var _a, _b;
         var _start = (_a = data === null || data === void 0 ? void 0 : data.start) !== null && _a !== void 0 ? _a : undefined;
         var _end = (_b = data === null || data === void 0 ? void 0 : data.end) !== null && _b !== void 0 ? _b : undefined;
-        var _gender = (data === null || data === void 0 ? void 0 : data.gender) !== undefined ? data === null || data === void 0 ? void 0 : data.gender : this.createGender();
+        var _gender = (data === null || data === void 0 ? void 0 : data.gender) !== undefined
+            ? data === null || data === void 0 ? void 0 : data.gender.toUpperCase()
+            : this.createGender();
         var _name = (data === null || data === void 0 ? void 0 : data.name) !== undefined
             ? data.name
             : this.createName(_gender, _start, _end);
@@ -219,8 +229,7 @@ var Name = /** @class */ (function (_super) {
     };
     /**
      *
-     * @param gender
-     * @type {?string}
+     * @param gender - "male" or "female"
      * @returns string
      */
     Name.prototype.prefix = function (gender) {
@@ -320,7 +329,7 @@ var CreditCard = /** @class */ (function (_super) {
             result += rnd.toString();
         }
         var checksum = this.isValid(result);
-        result += checksum.isValid ? "0" : checksum.needToBeValid;
+        result += checksum.isValid ? "0" : checksum.checksum;
         return parseInt(result);
     };
     CreditCard.prototype.holder = function () {
@@ -403,8 +412,8 @@ var CreditCard = /** @class */ (function (_super) {
             i++;
         }
         return final % 10 === 0
-            ? { isValid: true, needToBeValid: undefined }
-            : { isValid: false, needToBeValid: (10 - (final % 10)).toString() };
+            ? { isValid: true, checksum: undefined }
+            : { isValid: false, checksum: (10 - (final % 10)).toString() };
     };
     return CreditCard;
 }(Name));
@@ -479,18 +488,81 @@ var Country = /** @class */ (function (_super) {
     };
     return Country;
 }(Randomly));
-var name = new Name();
-exports.name = name;
-var animal = new Animal();
-exports.animal = animal;
-var color = new Color();
-exports.color = color;
-var phone = new Phone();
-exports.phone = phone;
+var Number = /** @class */ (function (_super) {
+    __extends(Number, _super);
+    function Number() {
+        var _this = _super.call(this) || this;
+        _this.DEFAULTS = {
+            min: 1,
+            max: 1000,
+            int: "INT",
+            float: "FLOAT"
+        };
+        return _this;
+    }
+    /**
+     *
+     * @param data
+     * @type {min?: number = 1, max?: number = 1000, decimal?: number = 2 }
+     * @returns number
+     */
+    Number.prototype.float = function (data) {
+        var _a, _b, _c;
+        var _min = (_a = data === null || data === void 0 ? void 0 : data.min) !== null && _a !== void 0 ? _a : this.DEFAULTS.min;
+        var _max = (_b = data === null || data === void 0 ? void 0 : data.max) !== null && _b !== void 0 ? _b : this.DEFAULTS.max;
+        var _decimal = (_c = data === null || data === void 0 ? void 0 : data.decimal) !== null && _c !== void 0 ? _c : 2;
+        return parseFloat((Math.random() * (_max - _min) + _min).toFixed(_decimal));
+    };
+    /**
+     *
+     * @param data
+     * @type {min?: number = 1, max?: number = 1000}
+     * @returns number
+     */
+    Number.prototype.int = function (data) {
+        var _a, _b;
+        var _min = (_a = data === null || data === void 0 ? void 0 : data.min) !== null && _a !== void 0 ? _a : this.DEFAULTS.min;
+        var _max = (_b = data === null || data === void 0 ? void 0 : data.max) !== null && _b !== void 0 ? _b : this.DEFAULTS.max;
+        return this.numRnd(_min, _max);
+    };
+    /**
+     *
+     * @param data
+     * @type {min?: number = 1, max?: number = 1000,decimal?: number; type: string; length: number;}
+     * @returns number
+     */
+    Number.prototype.array = function (data) {
+        var arr = [];
+        var type = data === null || data === void 0 ? void 0 : data.type.toUpperCase();
+        switch (type) {
+            case this.DEFAULTS.int:
+                for (var i = 0; i < data.length; i++) {
+                    arr[i] = this.int({ min: data.min, max: data.max });
+                }
+                break;
+            case this.DEFAULTS.float:
+                for (var i = 0; i < data.length; i++) {
+                    arr[i] = this.float({
+                        min: data.min,
+                        max: data.max,
+                        decimal: data.decimal
+                    });
+                }
+                break;
+        }
+        return arr;
+    };
+    return Number;
+}(Randomly));
 //const sentence = new Sentence();
-var card = new CreditCard();
-exports.card = card;
-var net = new Net();
-exports.net = net;
-var country = new Country();
-exports.country = country;
+var exp = {
+    name: new Name(),
+    animal: new Animal(),
+    color: new Color(),
+    phone: new Phone(),
+    card: new CreditCard(),
+    net: new Net(),
+    country: new Country(),
+    number: new Number()
+};
+exports["default"] = exp;

@@ -1490,4 +1490,3 @@ exports.domain_arr = [
     "ZUERICH",
     "ZW",
 ];
-console.log(exports.domain_arr.length);

@@ -1487,5 +1487,3 @@ export const domain_arr: string[] = [
   "ZUERICH",
   "ZW",
 ];
-
-console.log(domain_arr.length);

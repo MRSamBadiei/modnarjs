@@ -1,19 +1,30 @@
 type arrStr = string[];
 type arrNum = number[];
 type strUnd = string | undefined;
-
 // Name
+interface I_NAME_CFG {
+  F_NAME: string[];
+  M_NAME: string[];
+  LAST_NAME: string[];
+}
+
+interface I_NAME_CFG_U {
+  F_NAME?: string[];
+  M_NAME?: string[];
+  LAST_NAME?: string[];
+}
+
 interface I_Name_Fname {
-  name?: strUnd;
-  gender?: strUnd;
-  start?: strUnd;
-  end?: strUnd;
+  name?: string;
+  gender?: string;
+  start?: string;
+  end?: string;
 }
 
 interface I_Name_Lname {
-  name?: strUnd;
-  start?: strUnd;
-  end?: strUnd;
+  name?: string;
+  start?: string;
+  end?: string;
 }
 
 // Colors
@@ -39,7 +50,7 @@ interface I_Card_Visa {
 
 interface I_Card_Visa_Valid {
   isValid: boolean;
-  needToBeValid: string | undefined;
+  checksum: string | undefined;
 }
 
 // Net
@@ -50,10 +61,35 @@ interface I_Net_Email {
   useSpecialChar?: boolean;
 }
 
+// number
+interface I_Number_Float {
+  min?: number;
+  max?: number;
+  decimal?: number;
+}
+
+interface I_Number_Int {
+  min?: number;
+  max?: number;
+}
+
+interface I_Number_Array {
+  min?: number;
+  max?: number;
+  decimal?: number;
+  type: string;
+  length: number;
+}
+
 export {
   I_Color_RGB,
   I_Card_Visa,
+  I_NAME_CFG,
+  I_NAME_CFG_U,
   I_Card_Visa_Valid,
+  I_Number_Array,
+  I_Number_Float,
+  I_Number_Int,
   I_Card_Default,
   I_Name_Lname,
   I_Name_Fname,
