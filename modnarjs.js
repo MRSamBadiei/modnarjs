@@ -16,19 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 var name_1 = require("./src/names/name");
-/*
-import {
-  adjective,
-  adverb,
-  noun,
-  preposition,
-  verb,
-  subject_pronouns,
-  object_pronouns,
-  possessive_adjectives,
-  possessive_pronouns,
-} from "./src/Words/words";
-*/
+var words_1 = require("./src/words/words");
 var domain_1 = require("./src/net/domain");
 var country_1 = require("./src/country/country");
 var animal_1 = require("./src/animals/animal");
@@ -43,41 +31,22 @@ var Randomly = /** @class */ (function () {
         this.FEMALE = "FEMALE";
         this.PHONE_DEFAULT = "+1-###-555-####";
         this.DATE = new Date();
+        this.WORDS_LENGTH = words_1.words.length;
         this.NAME_CFG = {
             F_NAME: name_1.f,
             M_NAME: name_1.m,
             LAST_NAME: name_1.l
         };
-        // Words
-        /*
-        protected verb(): string {
-          return verb[this.rnd(verb)];
-        }
-        protected noun(): string {
-          return noun[this.rnd(noun)];
-        }
-        protected preposition(): string {
-          return preposition[this.rnd(preposition)];
-        }
-        protected adverb(): string {
-          return adverb[this.rnd(adverb)];
-        }
-        protected adjective(): string {
-          return adjective[this.rnd(adjective)];
-        }
-        protected subjectPronouns(): string {
-          return subject_pronouns[this.rnd(subject_pronouns)];
-        }
-        protected objectPronouns(): string {
-          return object_pronouns[this.rnd(object_pronouns)];
-        }
-        protected possessiveAdjectives(): string {
-          return possessive_adjectives[this.rnd(possessive_adjectives)];
-        }
-        protected possessivePronouns(): string {
-          return possessive_pronouns[this.rnd(possessive_pronouns)];
-        }
-        */
+        this.LOREM_CFG = {
+            WordsPerSentence: {
+                min: 4,
+                max: 16
+            },
+            sentencesPerParagraph: {
+                min: 4,
+                max: 8
+            }
+        };
     }
     // DEFAULT FUNCS
     // * rnd random array index
@@ -294,17 +263,81 @@ var Phone = /** @class */ (function (_super) {
     };
     return Phone;
 }(Randomly));
-var Sentence = /** @class */ (function (_super) {
-    __extends(Sentence, _super);
-    function Sentence() {
+var Lorem = /** @class */ (function (_super) {
+    __extends(Lorem, _super);
+    function Lorem() {
         return _super.call(this) || this;
     }
-    // test
-    Sentence.prototype.simple = function () {
-        //return `${this.subjectPronouns()} ${this.verb()} icrecream`;
-        return "this is not working yet :)";
+    /**
+     *
+     * @param data \{WPS?: {min?: number, max?: number}, SPP?: {min?: number, max?: number}}
+     */
+    Lorem.prototype.config = function (data) {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        this.LOREM_CFG.WordsPerSentence.min =
+            (_b = (_a = data.WPS) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : this.LOREM_CFG.WordsPerSentence.min;
+        this.LOREM_CFG.WordsPerSentence.max =
+            (_d = (_c = data.WPS) === null || _c === void 0 ? void 0 : _c.max) !== null && _d !== void 0 ? _d : this.LOREM_CFG.WordsPerSentence.max;
+        this.LOREM_CFG.sentencesPerParagraph.min =
+            (_f = (_e = data.SPP) === null || _e === void 0 ? void 0 : _e.min) !== null && _f !== void 0 ? _f : this.LOREM_CFG.sentencesPerParagraph.min;
+        this.LOREM_CFG.sentencesPerParagraph.max =
+            (_h = (_g = data.SPP) === null || _g === void 0 ? void 0 : _g.max) !== null && _h !== void 0 ? _h : this.LOREM_CFG.sentencesPerParagraph.max;
     };
-    return Sentence;
+    Lorem.prototype.method1 = function (length) {
+        var _result = "";
+        var _start = this.numRnd(0, words_1.words.length);
+        var _end = _start + length;
+        while (_start < _end) {
+            _result += "".concat(words_1.words[_start], " ");
+            _start++;
+        }
+        return _result.slice(0, -1) + ".";
+    };
+    Lorem.prototype.method2 = function (length) {
+        var _result = "";
+        var i = 0;
+        while (i < length) {
+            _result += "".concat(words_1.words[this.rnd(words_1.words)], " ");
+            i++;
+        }
+        return _result.slice(0, -1) + ".";
+    };
+    Lorem.prototype.lorem = function (words) {
+        return words > this.WORDS_LENGTH
+            ? this.method2(words)
+            : this.method1(words);
+    };
+    /**
+     *
+     * @param sentences
+     * @returns string
+     */
+    Lorem.prototype.loremSentences = function (sentences) {
+        var _result = "";
+        var _i = 0;
+        var _end = this.numRnd(this.LOREM_CFG.WordsPerSentence.min, this.LOREM_CFG.WordsPerSentence.max);
+        while (_i < sentences) {
+            _result += this.lorem(_end) + " ";
+            _i++;
+        }
+        return _result;
+    };
+    /**
+     *
+     * @param paragraphs
+     * @returns string
+     */
+    Lorem.prototype.loremParagraphs = function (paragraphs) {
+        var _result = "";
+        var _i = 0;
+        var _end = this.numRnd(this.LOREM_CFG.sentencesPerParagraph.min, this.LOREM_CFG.sentencesPerParagraph.max);
+        while (_i < paragraphs) {
+            _result += this.loremSentences(_end);
+            _i++;
+        }
+        return _result;
+    };
+    return Lorem;
 }(Randomly));
 var CreditCard = /** @class */ (function (_super) {
     __extends(CreditCard, _super);
@@ -554,7 +587,6 @@ var Number = /** @class */ (function (_super) {
     };
     return Number;
 }(Randomly));
-//const sentence = new Sentence();
 var exp = {
     name: new Name(),
     animal: new Animal(),
@@ -563,6 +595,12 @@ var exp = {
     card: new CreditCard(),
     net: new Net(),
     country: new Country(),
-    number: new Number()
+    number: new Number(),
+    lorem: new Lorem()
 };
+exp.lorem.config({ SPP: { min: 1, max: 3 } });
+//
+console.time("this");
+log(exp.lorem.loremParagraphs(10));
+console.timeEnd("this");
 exports["default"] = exp;

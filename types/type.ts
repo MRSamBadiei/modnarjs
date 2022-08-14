@@ -81,6 +81,18 @@ interface I_Number_Array {
   length: number;
 }
 
+// Lorem
+interface I_Lorem_Config {
+  WPS?: {
+    min?: number;
+    max?: number;
+  };
+  SPP?: {
+    min?: number;
+    max?: number;
+  };
+}
+
 export {
   I_Color_RGB,
   I_Card_Visa,
@@ -94,6 +106,7 @@ export {
   I_Name_Lname,
   I_Name_Fname,
   I_Net_Email,
+  I_Lorem_Config,
   strUnd,
   arrNum,
   arrStr,

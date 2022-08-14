@@ -1,5 +1,4 @@
 <div align="center">
-  <div></div>
   <img src="./src/img/logo.png" width="200"/>
   <p>✨ generate all realistic data you need ✨</p>
   <a href="https://www.npmjs.com/package/modnarjs"><img src="https://badgen.net/npm/v/modnarjs"/></a>
@@ -75,7 +74,7 @@ modnarjs.name.prefix(
     gender?: string
 ): string
 // e.g.
-modnarjs.name.prefix(gender: "male") // "Mr."
+modnarjs.name.prefix("male") // "Mr."
 ```
 
 ## Animals
@@ -99,7 +98,7 @@ modnarjs.animal.kind() // "dog"
 ```typescript
 modnarjs.color.color(format?:string): number[] | undefined | string
 // e.g.
-modnarjs.color.color(format:'hex') // "1e1e1e"
+modnarjs.color.color('hex') // "1e1e1e"
 ```
 
 ## Phones
@@ -111,13 +110,48 @@ modnarjs.color.color(format:'hex') // "1e1e1e"
 ```typescript
 modnarjs.phone.phone(format?:string): string
 // e.g.
-modnarjs.phone.phone(format:"### ### ###") // "123 645 123"
-modnarjs.phone.phone() //"1+ 645 123 4343"
+modnarjs.phone.phone("### ### ###") // "123 645 123"
+modnarjs.phone.phone() //"+1 645 123 4343"
 ```
 
-## Sentence
+## Lorem
 
-Working on it :)
+### config
+
+> you can change config for default 'sentences per paragraph' and 'words per sentence'
+
+```typescript
+modnarjs.lorem.config(data: {
+  WPS?: { // words per sentence
+    min?: number; // default is 4
+    max?: number; // default is 16
+  };
+  SPP?: { // sentences per paragraph
+    min?: number; // default is 4
+    max?: number; // default is 8
+  }
+  }): void
+```
+
+### loremSentences
+
+> Random sentence, you can change default words per sentence
+
+```typescript
+modnarjs.lorem.loremSentences(sentences: number): string
+// e.g.
+modnarjs.lorem.loremSentences(1) // "relaxing delphi trophy emotion buick."
+```
+
+### loremParagraphs
+
+> Random paragraph, you can change default sentences per paragraph
+
+```typescript
+modnarjs.lorem.loremParagraphs(paragraphs: number): string
+// e.g.
+modnarjs.lorem.loremParagraphs(5)
+```
 
 ## Credit Card
 
@@ -253,7 +287,7 @@ modnarjs.number.int() // 10
 
 ### array
 
-> Random int or float array number
+> Random int or float array number,
 > type and length can not be undefined
 
 ```typescript

@@ -1,17 +1,5 @@
 import { m, f, l } from "./src/names/name";
-/*
-import {
-  adjective,
-  adverb,
-  noun,
-  preposition,
-  verb,
-  subject_pronouns,
-  object_pronouns,
-  possessive_adjectives,
-  possessive_pronouns,
-} from "./src/Words/words";
-*/
+import { words } from "./src/words/words";
 import { domain_arr } from "./src/net/domain";
 import { country_arr } from "./src/country/country";
 import { animals } from "./src/animals/animal";
@@ -31,6 +19,7 @@ import {
   I_NAME_CFG,
   I_NAME_CFG_U,
   I_Number_Array,
+  I_Lorem_Config,
 } from "./types/type";
 
 // test funcs
@@ -43,10 +32,21 @@ class Randomly {
   protected readonly FEMALE: string = "FEMALE";
   protected readonly PHONE_DEFAULT: string = "+1-###-555-####";
   protected readonly DATE: Date = new Date();
+  protected readonly WORDS_LENGTH: number = words.length;
   protected NAME_CFG: I_NAME_CFG = {
     F_NAME: f,
     M_NAME: m,
     LAST_NAME: l,
+  };
+  protected LOREM_CFG = {
+    WordsPerSentence: {
+      min: 4,
+      max: 16,
+    },
+    sentencesPerParagraph: {
+      min: 4,
+      max: 8,
+    },
   };
   // DEFAULT FUNCS
   // * rnd random array index
@@ -142,36 +142,6 @@ class Randomly {
     }
     return result;
   }
-  // Words
-  /*
-  protected verb(): string {
-    return verb[this.rnd(verb)];
-  }
-  protected noun(): string {
-    return noun[this.rnd(noun)];
-  }
-  protected preposition(): string {
-    return preposition[this.rnd(preposition)];
-  }
-  protected adverb(): string {
-    return adverb[this.rnd(adverb)];
-  }
-  protected adjective(): string {
-    return adjective[this.rnd(adjective)];
-  }
-  protected subjectPronouns(): string {
-    return subject_pronouns[this.rnd(subject_pronouns)];
-  }
-  protected objectPronouns(): string {
-    return object_pronouns[this.rnd(object_pronouns)];
-  }
-  protected possessiveAdjectives(): string {
-    return possessive_adjectives[this.rnd(possessive_adjectives)];
-  }
-  protected possessivePronouns(): string {
-    return possessive_pronouns[this.rnd(possessive_pronouns)];
-  }
-  */
 }
 
 class Name extends Randomly {
@@ -296,14 +266,83 @@ class Phone extends Randomly {
   }
 }
 
-class Sentence extends Randomly {
+class Lorem extends Randomly {
   constructor() {
     super();
   }
-  // test
-  public simple(): string {
-    //return `${this.subjectPronouns()} ${this.verb()} icrecream`;
-    return "this is not working yet :)";
+  /**
+   *
+   * @param data \{WPS?: {min?: number, max?: number}, SPP?: {min?: number, max?: number}}
+   */
+  public config(data: I_Lorem_Config): void {
+    this.LOREM_CFG.WordsPerSentence.min =
+      data.WPS?.min ?? this.LOREM_CFG.WordsPerSentence.min;
+    this.LOREM_CFG.WordsPerSentence.max =
+      data.WPS?.max ?? this.LOREM_CFG.WordsPerSentence.max;
+    this.LOREM_CFG.sentencesPerParagraph.min =
+      data.SPP?.min ?? this.LOREM_CFG.sentencesPerParagraph.min;
+    this.LOREM_CFG.sentencesPerParagraph.max =
+      data.SPP?.max ?? this.LOREM_CFG.sentencesPerParagraph.max;
+  }
+  private method1(length: number): string {
+    let _result = "";
+    let _start: number = this.numRnd(0, words.length);
+    const _end = _start + length;
+    while (_start < _end) {
+      _result += `${words[_start]} `;
+      _start++;
+    }
+    return _result.slice(0, -1) + ".";
+  }
+  private method2(length: number): string {
+    let _result: string = "";
+    let i: number = 0;
+    while (i < length) {
+      _result += `${words[this.rnd(words)]} `;
+      i++;
+    }
+    return _result.slice(0, -1) + ".";
+  }
+  private lorem(words: number): string {
+    return words > this.WORDS_LENGTH
+      ? this.method2(words)
+      : this.method1(words);
+  }
+  /**
+   *
+   * @param sentences
+   * @returns string
+   */
+  public loremSentences(sentences: number): string {
+    let _result: string = "";
+    let _i: number = 0;
+    let _end: number = this.numRnd(
+      this.LOREM_CFG.WordsPerSentence.min,
+      this.LOREM_CFG.WordsPerSentence.max
+    );
+    while (_i < sentences) {
+      _result += this.lorem(_end) + " ";
+      _i++;
+    }
+    return _result;
+  }
+  /**
+   *
+   * @param paragraphs
+   * @returns string
+   */
+  public loremParagraphs(paragraphs: number): string {
+    let _result: string = "";
+    let _i: number = 0;
+    let _end: number = this.numRnd(
+      this.LOREM_CFG.sentencesPerParagraph.min,
+      this.LOREM_CFG.sentencesPerParagraph.max
+    );
+    while (_i < paragraphs) {
+      _result += this.loremSentences(_end);
+      _i++;
+    }
+    return _result;
   }
 }
 
@@ -560,8 +599,6 @@ class Number extends Randomly {
   }
 }
 
-//const sentence = new Sentence();
-
 const exp = {
   name: new Name(),
   animal: new Animal(),
@@ -571,6 +608,13 @@ const exp = {
   net: new Net(),
   country: new Country(),
   number: new Number(),
+  lorem: new Lorem(),
 };
+
+exp.lorem.config({ SPP: { min: 1, max: 3 } });
+//
+console.time("this");
+log(exp.lorem.loremParagraphs(10));
+console.timeEnd("this");
 
 export default exp;
