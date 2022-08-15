@@ -613,8 +613,4 @@ const exp = {
 
 exp.lorem.config({ SPP: { min: 1, max: 3 } });
 //
-console.time("this");
-log(exp.lorem.loremParagraphs(10));
-console.timeEnd("this");
-
 export default exp;

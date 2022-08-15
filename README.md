@@ -27,11 +27,11 @@ import modnarjs from "modnarjs";
 > only if you need to change default config!
 
 ```typescript
-name.config(data: {
+modnarjs.name.config(data: {
   F_NAME?: string[]; // female names
   M_NAME?: string[]; // male names
   LAST_NAME?: string[]; // last names
-  }): void
+}): void
 // e.g.
 name.config({ LAST_NAME: ["bashi", "espinal", "blackwall"] })
 ```
@@ -130,7 +130,7 @@ modnarjs.lorem.config(data: {
     min?: number; // default is 4
     max?: number; // default is 8
   }
-  }): void
+}): void
 ```
 
 ### loremSentences
