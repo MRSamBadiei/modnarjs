@@ -610,7 +610,5 @@ const exp = {
   number: new Number(),
   lorem: new Lorem(),
 };
-
-exp.lorem.config({ SPP: { min: 1, max: 3 } });
 //
 export default exp;
