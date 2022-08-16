@@ -3,6 +3,18 @@
   <p>✨ generate all realistic data you need ✨</p>
   <a href="https://www.npmjs.com/package/modnarjs"><img src="https://badgen.net/npm/v/modnarjs"/></a>
   <a href="https://www.npmjs.com/package/modnarjs"><img src="https://badgen.net/npm/dm/modnarjs"/></a>
+  <div>
+  <p></p>
+   <a href="#names">Names</a> 🔸
+   <a href="#animals">Animals</a> 🔸
+   <a href="#colors">Colors</a> 🔸
+   <a href="#phones">Phones</a> 🔸
+   <a href="#lorem">Lorem</a> 🔸
+   <a href="#credit-card">Credit Card</a> 🔸
+   <a href="#net">Net</a> 🔸
+   <a href="#country">Country</a> 🔸
+   <a href="#number">Number</a>
+  </div>
 </div>
 
 ## Installation
@@ -111,7 +123,7 @@ modnarjs.color.color('hex') // "1e1e1e"
 modnarjs.phone.phone(format?:string): string
 // e.g.
 modnarjs.phone.phone("### ### ###") // "123 645 123"
-modnarjs.phone.phone() //"+1 645 123 4343"
+modnarjs.phone.phone() // "+1 645 123 4343"
 ```
 
 ## Lorem
