@@ -58,7 +58,6 @@ interface I_Net_Email {
   firstName?: string;
   lastName?: string;
   company?: string;
-  useSpecialChar?: boolean;
 }
 
 // number

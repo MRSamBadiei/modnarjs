@@ -463,7 +463,7 @@ class CreditCard extends Name {
 }
 
 class Net extends Name {
-  private provider: arrStr = [
+  private readonly provider: arrStr = [
     "gmail.com",
     "yahoo.com",
     "hotmail.com",
@@ -476,6 +476,46 @@ class Net extends Name {
   ];
   constructor() {
     super();
+  }
+  // https://stackoverflow.com/questions/41914224/email-generator-javascript
+  private emailMethods(
+    num: number,
+    fn: string,
+    ln: string,
+    company: string
+  ): string {
+    switch (num) {
+      case 1:
+        return fn + "@" + company;
+      case 2:
+        return fn + "." + ln + "@" + company;
+      case 3:
+        return fn + ln + "@" + company;
+      case 4:
+        return fn.charAt(0) + ln + "@" + company;
+      case 5:
+        return fn.charAt(0) + "." + ln + "@" + company;
+      case 6:
+        return fn + ln.charAt(0) + "@" + company;
+      case 7:
+        return fn + "." + ln.charAt(0) + "@" + company;
+      case 8:
+        return fn.charAt(0) + ln.charAt(0) + "@" + company;
+      case 9:
+        return fn + "_" + ln + "@" + company;
+      case 10:
+        return fn.charAt(0) + "_" + ln + "@" + company;
+      case 11:
+        return ln + fn + "@" + company;
+      case 12:
+        return ln + "." + fn + "@" + company;
+      case 13:
+        return ln + fn.charAt(0) + "@" + company;
+      case 14:
+        return ln + "." + fn.charAt(0) + "@" + company;
+      default:
+        return "error";
+    }
   }
   private classTypeNum(classType: string): string {
     switch (classType.toUpperCase()) {
@@ -493,13 +533,17 @@ class Net extends Name {
         return `ERROR: WRONG CLASS`;
     }
   }
+  /**
+   *
+   * @param data \{firstName?: string; lastName?: string; company?: string;}
+   * @returns string
+   */
   public email(data?: I_Net_Email): string {
     const firstName: strUnd = data?.firstName ?? this.fName();
     const lastName: strUnd = data?.lastName ?? this.lName();
     const company: strUnd =
       data?.company ?? this.provider[this.rnd(this.provider)];
-    const chars: boolean = data?.useSpecialChar ?? false;
-    return `${firstName}${lastName}@${company}.com`;
+    return this.emailMethods(this.numRnd(1, 14), firstName, lastName, company);
   }
   /**
    *
@@ -610,5 +654,5 @@ const exp = {
   number: new Number(),
   lorem: new Lorem(),
 };
-//
+
 export default exp;

@@ -1,13 +1,13 @@
 {
   "name": "modnarjs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Use to generate fake data for your project",
   "main": "modnarjs.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MRSamBadiei/modnarjs.git"
   },
-  "keywords": ["modnar","modnarjs","random","javascript","typescript","string","generate"],
+  "keywords": ["modnar","modnarjs","random","javascript","typescript","string","generate","fake","data","lorem"],
   "author": "Sam Badiei",
   "license": "MIT",
   "bugs": {

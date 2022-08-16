@@ -209,17 +209,16 @@ modnarjs.card.isValid("4775876705860201")
 
 ### email
 
-> i'm still working on email performance
+> Random email
 
 ```typescript
 modnarjs.net.email(data?: {
   firstName?: string,
   lastName?: string,
-  company?: string,
-  useSpecialChar?: boolean
+  company?: string, // e.g. "gmail.com"
 }): string
 // e.g.
-modnarjs.net.email()
+modnarjs.net.email() // "winnyalexandropoul@aol.com"
 ```
 
 ### ipv4

@@ -467,6 +467,41 @@ var Net = /** @class */ (function (_super) {
         ];
         return _this;
     }
+    // https://stackoverflow.com/questions/41914224/email-generator-javascript
+    Net.prototype.emailMethods = function (num, fn, ln, company) {
+        switch (num) {
+            case 1:
+                return fn + "@" + company;
+            case 2:
+                return fn + "." + ln + "@" + company;
+            case 3:
+                return fn + ln + "@" + company;
+            case 4:
+                return fn.charAt(0) + ln + "@" + company;
+            case 5:
+                return fn.charAt(0) + "." + ln + "@" + company;
+            case 6:
+                return fn + ln.charAt(0) + "@" + company;
+            case 7:
+                return fn + "." + ln.charAt(0) + "@" + company;
+            case 8:
+                return fn.charAt(0) + ln.charAt(0) + "@" + company;
+            case 9:
+                return fn + "_" + ln + "@" + company;
+            case 10:
+                return fn.charAt(0) + "_" + ln + "@" + company;
+            case 11:
+                return ln + fn + "@" + company;
+            case 12:
+                return ln + "." + fn + "@" + company;
+            case 13:
+                return ln + fn.charAt(0) + "@" + company;
+            case 14:
+                return ln + "." + fn.charAt(0) + "@" + company;
+            default:
+                return "error";
+        }
+    };
     Net.prototype.classTypeNum = function (classType) {
         switch (classType.toUpperCase()) {
             case "A":
@@ -483,13 +518,17 @@ var Net = /** @class */ (function (_super) {
                 return "ERROR: WRONG CLASS";
         }
     };
+    /**
+     *
+     * @param data \{firstName?: string; lastName?: string; company?: string;}
+     * @returns string
+     */
     Net.prototype.email = function (data) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         var firstName = (_a = data === null || data === void 0 ? void 0 : data.firstName) !== null && _a !== void 0 ? _a : this.fName();
         var lastName = (_b = data === null || data === void 0 ? void 0 : data.lastName) !== null && _b !== void 0 ? _b : this.lName();
         var company = (_c = data === null || data === void 0 ? void 0 : data.company) !== null && _c !== void 0 ? _c : this.provider[this.rnd(this.provider)];
-        var chars = (_d = data === null || data === void 0 ? void 0 : data.useSpecialChar) !== null && _d !== void 0 ? _d : false;
-        return "".concat(firstName).concat(lastName, "@").concat(company, ".com");
+        return this.emailMethods(this.numRnd(1, 14), firstName, lastName, company);
     };
     /**
      *
@@ -598,9 +637,4 @@ var exp = {
     number: new Number(),
     lorem: new Lorem()
 };
-exp.lorem.config({ SPP: { min: 1, max: 3 } });
-//
-console.time("this");
-log(exp.lorem.loremParagraphs(10));
-console.timeEnd("this");
 exports["default"] = exp;
