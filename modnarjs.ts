@@ -643,7 +643,7 @@ class Number extends Randomly {
   }
 }
 
-const exp = {
+const modnarjs = {
   name: new Name(),
   animal: new Animal(),
   color: new Color(),
@@ -655,4 +655,4 @@ const exp = {
   lorem: new Lorem(),
 };
 
-export default exp;
+export = modnarjs;

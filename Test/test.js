@@ -1,5 +1,3 @@
-"use strict";
-exports.__esModule = true;
-var modnarjs_1 = require("../modnarjs");
-for (var i = 0; i < Math.pow(10, 3); i++)
-    console.log(modnarjs_1["default"].net.email());
+const modnarjs = require("../modnarjs.js");
+
+console.log(modnarjs.name.fName());
