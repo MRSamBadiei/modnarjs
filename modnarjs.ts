@@ -32,6 +32,29 @@ class Randomly {
   protected readonly FEMALE: string = "FEMALE";
   protected readonly PHONE_DEFAULT: string = "+1-###-555-####";
   protected readonly DATE: Date = new Date();
+  protected readonly DAYS: string[] = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+  protected readonly MONTHS: string[] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   protected readonly WORDS_LENGTH: number = words.length;
   protected NAME_CFG: I_NAME_CFG = {
     F_NAME: f,
@@ -131,7 +154,7 @@ class Randomly {
     }
   }
   // phone
-  protected createPhone(format: string): string {
+  protected createNumberWithFormat(format: string): string {
     let result: string = "";
     for (let i = 0; i < format.length; i++) {
       if (format[i] === "#") {
@@ -261,8 +284,8 @@ class Phone extends Randomly {
    */
   public phone(format?: string): string {
     return format !== undefined
-      ? this.createPhone(format)
-      : this.createPhone(this.PHONE_DEFAULT);
+      ? this.createNumberWithFormat(format)
+      : this.createNumberWithFormat(this.PHONE_DEFAULT);
   }
 }
 
@@ -643,6 +666,26 @@ class Number extends Randomly {
   }
 }
 
+class Rdate extends Randomly {
+  constructor() {
+    super();
+  }
+  /**
+   *
+   * @returns string
+   */
+  public day(): string {
+    return this.DAYS[this.rnd(this.DAYS)];
+  }
+  /**
+   *
+   * @returns string
+   */
+  public month(): string {
+    return this.MONTHS[this.rnd(this.MONTHS)];
+  }
+}
+
 const modnarjs = {
   name: new Name(),
   animal: new Animal(),
@@ -653,6 +696,7 @@ const modnarjs = {
   country: new Country(),
   number: new Number(),
   lorem: new Lorem(),
+  date: new Rdate(),
 };
 
 export = modnarjs;

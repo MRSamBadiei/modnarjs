@@ -5,10 +5,11 @@
   <a href="https://www.npmjs.com/package/modnarjs"><img src="https://badgen.net/npm/dm/modnarjs"/></a>
   <div>
   <p></p>
-   <a href="#names">Names</a> 🔸
-   <a href="#animals">Animals</a> 🔸
-   <a href="#colors">Colors</a> 🔸
-   <a href="#phones">Phones</a> 🔸
+   <a href="#name">Name</a> 🔸
+   <a href="#Date">Date</a> 🔸
+   <a href="#animal">Animal</a> 🔸
+   <a href="#color">Color</a> 🔸
+   <a href="#phone">Phone</a> 🔸
    <a href="#lorem">Lorem</a> 🔸
    <a href="#credit-card">Credit Card</a> 🔸
    <a href="#net">Net</a> 🔸
@@ -31,11 +32,11 @@ const modnarjs = require("modnarjs");
 import modnarjs from "modnarjs";
 ```
 
-## Names
+## Name
 
 ### config
 
-> you can change default array of first & last name
+> you can change default array of first & last name.
 > only if you need to change default config!
 
 ```typescript
@@ -48,7 +49,7 @@ modnarjs.name.config(data: {
 name.config({ LAST_NAME: ["bashi", "espinal", "blackwall"] })
 ```
 
-### First Name
+### fName
 
 > Random male or female first name
 
@@ -63,7 +64,7 @@ modnarjs.name.fName(data?: {
 modnarjs.name.fName() // "sam"
 ```
 
-### Last Name
+### lName
 
 > Random last name
 
@@ -89,7 +90,29 @@ modnarjs.name.prefix(
 modnarjs.name.prefix("male") // "Mr."
 ```
 
-## Animals
+## Date
+
+### day
+
+> Random day
+
+```typescript
+modnarjs.date.day(): string
+// e.g.
+modnarjs.date.day() // "Monday"
+```
+
+### month
+
+> Random month
+
+```typescript
+modnarjs.date.month(): string
+// e.g.
+modnarjs.date.month() // "February"
+```
+
+## Animal
 
 ### kind
 
@@ -101,28 +124,28 @@ modnarjs.animal.kind(): string
 modnarjs.animal.kind() // "dog"
 ```
 
-## Colors
+## Color
 
 ### color
 
-> Random colors (rgb,rgba,hex) formats (default is "rgb")
+> Random colors (rgb,rgba,hex) - formats (default is "rgb")
 
 ```typescript
-modnarjs.color.color(format?:string): number[] | undefined | string
+modnarjs.color.color(format?: string): number[] | undefined | string
 // e.g.
 modnarjs.color.color('hex') // "1e1e1e"
 ```
 
-## Phones
+## Phone
 
 ### phone
 
 > Random phone number with your own format
 
 ```typescript
-modnarjs.phone.phone(format?:string): string
+modnarjs.phone.phone(format?: string): string
 // e.g.
-modnarjs.phone.phone("### ### ###") // "123 645 123"
+modnarjs.phone.phone("### ### - ###") // "123 645 - 123"
 modnarjs.phone.phone() // "+1 645 123 4343"
 ```
 
@@ -235,10 +258,10 @@ modnarjs.net.email() // "winnyalexandropoul@aol.com"
 
 ### ipv4
 
-> Random ipv4 - Classtypes "A","B","C","D","E"
+> Random ipv4 - Class types "A","B","C","D","E"
 
 ```typescript
-modnarjs.net.ipv4(classType?:string): string
+modnarjs.net.ipv4(classType?: string): string
 // e.g.
 modnarjs.net.ipv4("A") // "42.29.140.187"
 modnarjs.net.ipv4() // "164.198.12.127"
@@ -246,8 +269,7 @@ modnarjs.net.ipv4() // "164.198.12.127"
 
 ### domain
 
-> Random top-level domain
-> with 1487 top-level domains
+> Random top-level domain with 1487 top-level domains
 
 ```typescript
 modnarjs.net.domain(): string
@@ -274,7 +296,7 @@ modnarjs.country.country() // "Egypt"
 > Random float number
 
 ```typescript
-modnarjs.number.float(data?:{
+modnarjs.number.float(data?: {
   min?: number;
   max?: number;
   decimal?: number;
@@ -288,7 +310,7 @@ modnarjs.number.float({ min: 1, max: 1000 }) // 206.77
 > Random int number
 
 ```typescript
-modnarjs.number.int(data?:{
+modnarjs.number.int(data?: {
   min?: number;
   max?: number;
 }): number
@@ -299,10 +321,10 @@ modnarjs.number.int() // 10
 ### array
 
 > Random int or float array number,
-> type and length can not be undefined
+> type and length can not be undefined.
 
 ```typescript
-modnarjs.number.array(data:{
+modnarjs.number.array(data: {
   min?: number;
   max?: number;
   decimal?: number;

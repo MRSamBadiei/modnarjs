@@ -1,6 +1,6 @@
 {
   "name": "modnarjs",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Use to generate fake data for your project",
   "main": "modnarjs.js",
   "repository": {

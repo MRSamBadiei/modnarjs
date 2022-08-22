@@ -1,3 +1,5 @@
 const modnarjs = require("../modnarjs.js");
 
-console.log(modnarjs.name.fName());
+for (let i = 0; i < 10 ** 2; i++) {
+  console.log(modnarjs.number.float());
+}

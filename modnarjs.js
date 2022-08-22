@@ -30,6 +30,29 @@ var Randomly = /** @class */ (function () {
         this.FEMALE = "FEMALE";
         this.PHONE_DEFAULT = "+1-###-555-####";
         this.DATE = new Date();
+        this.DAYS = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ];
+        this.MONTHS = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
         this.WORDS_LENGTH = words_1.words.length;
         this.NAME_CFG = {
             F_NAME: name_1.f,
@@ -125,7 +148,7 @@ var Randomly = /** @class */ (function () {
         }
     };
     // phone
-    Randomly.prototype.createPhone = function (format) {
+    Randomly.prototype.createNumberWithFormat = function (format) {
         var result = "";
         for (var i = 0; i < format.length; i++) {
             if (format[i] === "#") {
@@ -257,8 +280,8 @@ var Phone = /** @class */ (function (_super) {
      */
     Phone.prototype.phone = function (format) {
         return format !== undefined
-            ? this.createPhone(format)
-            : this.createPhone(this.PHONE_DEFAULT);
+            ? this.createNumberWithFormat(format)
+            : this.createNumberWithFormat(this.PHONE_DEFAULT);
     };
     return Phone;
 }(Randomly));
@@ -625,6 +648,27 @@ var Number = /** @class */ (function (_super) {
     };
     return Number;
 }(Randomly));
+var Rdate = /** @class */ (function (_super) {
+    __extends(Rdate, _super);
+    function Rdate() {
+        return _super.call(this) || this;
+    }
+    /**
+     *
+     * @returns string
+     */
+    Rdate.prototype.day = function () {
+        return this.DAYS[this.rnd(this.DAYS)];
+    };
+    /**
+     *
+     * @returns string
+     */
+    Rdate.prototype.month = function () {
+        return this.MONTHS[this.rnd(this.MONTHS)];
+    };
+    return Rdate;
+}(Randomly));
 var modnarjs = {
     name: new Name(),
     animal: new Animal(),
@@ -634,6 +678,7 @@ var modnarjs = {
     net: new Net(),
     country: new Country(),
     number: new Number(),
-    lorem: new Lorem()
+    lorem: new Lorem(),
+    date: new Rdate()
 };
 module.exports = modnarjs;
