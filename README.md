@@ -202,6 +202,7 @@ modnarjs.card.visaCard(): I_Card_Visa
 modnarjs.card.visaCard()
 /*
 {
+  name: "Visa",
   creditNumber: 4775876705860201,
   cvv: 712,
   holder: 'WENDELL CMIEL',

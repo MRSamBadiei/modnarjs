@@ -42,6 +42,7 @@ interface I_Card_Default {
 }
 
 interface I_Card_Visa {
+  name: string;
   creditNumber: number;
   cvv: number;
   holder: string;

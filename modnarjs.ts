@@ -412,6 +412,7 @@ class CreditCard extends Name {
    */
   public visaCard(): I_Card_Visa {
     return {
+      name: "Visa",
       creditNumber: this.creditNumber(this.VISA_START),
       cvv: this.cvv(),
       holder: this.holder(),
@@ -424,6 +425,7 @@ class CreditCard extends Name {
    */
   public masterCard(): I_Card_Visa {
     return {
+      name: "Master",
       creditNumber: this.creditNumber(
         this.MASTER_START[this.numRnd(0, this.MASTER_START.length)]
       ),
@@ -438,6 +440,7 @@ class CreditCard extends Name {
    */
   public amexCard(): I_Card_Visa {
     return {
+      name: "Amex",
       creditNumber: this.creditNumber(
         this.AMEX_START[this.numRnd(0, this.AMEX_START.length)]
       ),

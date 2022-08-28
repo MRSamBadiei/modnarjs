@@ -406,6 +406,7 @@ var CreditCard = /** @class */ (function (_super) {
      */
     CreditCard.prototype.visaCard = function () {
         return {
+            name: "Visa",
             creditNumber: this.creditNumber(this.VISA_START),
             cvv: this.cvv(),
             holder: this.holder(),
@@ -418,6 +419,7 @@ var CreditCard = /** @class */ (function (_super) {
      */
     CreditCard.prototype.masterCard = function () {
         return {
+            name: "Master",
             creditNumber: this.creditNumber(this.MASTER_START[this.numRnd(0, this.MASTER_START.length)]),
             cvv: this.cvv(),
             holder: this.holder(),
@@ -430,6 +432,7 @@ var CreditCard = /** @class */ (function (_super) {
      */
     CreditCard.prototype.amexCard = function () {
         return {
+            name: "Amex",
             creditNumber: this.creditNumber(this.AMEX_START[this.numRnd(0, this.AMEX_START.length)]),
             cvv: this.cvv(),
             holder: this.holder(),
