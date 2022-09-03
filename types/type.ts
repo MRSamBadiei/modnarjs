@@ -34,13 +34,6 @@ interface I_Color_RGB {
   b: number;
 }
 
-// Phones
-
-// Cards
-interface I_Card_Default {
-  cvvLength: number;
-}
-
 interface I_Card_Visa {
   name: string;
   creditNumber: number;
@@ -102,7 +95,6 @@ export {
   I_Number_Array,
   I_Number_Float,
   I_Number_Int,
-  I_Card_Default,
   I_Name_Lname,
   I_Name_Fname,
   I_Net_Email,

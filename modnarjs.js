@@ -19,11 +19,9 @@ var words_1 = require("./src/words/words");
 var domain_1 = require("./src/net/domain");
 var country_1 = require("./src/country/country");
 var animal_1 = require("./src/animals/animal");
-// test funcs
-function log(param) {
-    console.log(param);
-}
-//
+var typeError = function (name, data, type) {
+    console.error("(".concat(name, ") Type Error, ").concat(data, " is not a ").concat(type, "."));
+};
 var Randomly = /** @class */ (function () {
     function Randomly() {
         this.MALE = "MALE";
@@ -180,17 +178,32 @@ var Name = /** @class */ (function (_super) {
     };
     /**
      *
-     * @param data - is a object contains
-     * {
-     * name?: string | undefined,
-     * gender?: string | undefined,
-     * start?: string | undefined,
-     * end?: string | undefined
+     * @param data
+     * @type {name?: string | undefined, gender?: string | undefined,
+     * start?: string | undefined, end?: string | undefined
      * }
      * @returns string
      */
     Name.prototype.fName = function (data) {
         var _a, _b;
+        /* Error handeling */
+        if ((data === null || data === void 0 ? void 0 : data.start) && typeof (data === null || data === void 0 ? void 0 : data.start) !== "string") {
+            typeError("start", data === null || data === void 0 ? void 0 : data.start, "string");
+            return "";
+        }
+        if ((data === null || data === void 0 ? void 0 : data.end) && typeof (data === null || data === void 0 ? void 0 : data.end) !== "string") {
+            typeError("end", data === null || data === void 0 ? void 0 : data.end, "string");
+            return "";
+        }
+        if ((data === null || data === void 0 ? void 0 : data.name) && typeof (data === null || data === void 0 ? void 0 : data.name) !== "string") {
+            typeError("name", data === null || data === void 0 ? void 0 : data.name, "string");
+            return "";
+        }
+        if ((data === null || data === void 0 ? void 0 : data.gender) && typeof (data === null || data === void 0 ? void 0 : data.gender) !== "string") {
+            typeError("gender", data === null || data === void 0 ? void 0 : data.gender, "string");
+            return "";
+        }
+        //
         var _start = (_a = data === null || data === void 0 ? void 0 : data.start) !== null && _a !== void 0 ? _a : undefined;
         var _end = (_b = data === null || data === void 0 ? void 0 : data.end) !== null && _b !== void 0 ? _b : undefined;
         var _gender = (data === null || data === void 0 ? void 0 : data.gender) !== undefined
@@ -204,15 +217,26 @@ var Name = /** @class */ (function (_super) {
     /**
      *
      * @param data - is a object contains
-     * {
-     * name?: string | undefined,
-     * start?: string | undefined,
-     * end?: string | undefined
+     * @type {name?: string | undefined, start?: string | undefined, end?: string | undefined
      * }
      * @returns string
      */
     Name.prototype.lName = function (data) {
         var _a, _b;
+        /* Error handeling */
+        if ((data === null || data === void 0 ? void 0 : data.start) && typeof (data === null || data === void 0 ? void 0 : data.start) !== "string") {
+            typeError("start", data === null || data === void 0 ? void 0 : data.start, "string");
+            return "";
+        }
+        if ((data === null || data === void 0 ? void 0 : data.end) && typeof (data === null || data === void 0 ? void 0 : data.end) !== "string") {
+            typeError("end", data === null || data === void 0 ? void 0 : data.end, "string");
+            return "";
+        }
+        if ((data === null || data === void 0 ? void 0 : data.name) && typeof (data === null || data === void 0 ? void 0 : data.name) !== "string") {
+            typeError("name", data === null || data === void 0 ? void 0 : data.name, "string");
+            return "";
+        }
+        //
         var _start = (_a = data === null || data === void 0 ? void 0 : data.start) !== null && _a !== void 0 ? _a : undefined;
         var _end = (_b = data === null || data === void 0 ? void 0 : data.end) !== null && _b !== void 0 ? _b : undefined;
         var _name = (data === null || data === void 0 ? void 0 : data.name) !== undefined ? data.name : this.createLastname(_start, _end);
@@ -221,17 +245,25 @@ var Name = /** @class */ (function (_super) {
     /**
      *
      * @param gender - "male" or "female"
+     * @type ?string
      * @returns string
      */
     Name.prototype.prefix = function (gender) {
-        var result = gender !== undefined
-            ? gender === this.MALE
-                ? "Mr."
-                : "Ms."
-            : this.createGender() === this.MALE
-                ? "Mr."
-                : "Ms.";
-        return result;
+        if (!gender) {
+            return this.createGender() === this.MALE ? "Mr." : "Ms.";
+        }
+        if (gender && typeof gender !== "string") {
+            typeError("gender", gender, "string");
+            return "";
+        }
+        if ((gender === null || gender === void 0 ? void 0 : gender.toUpperCase()) === this.MALE ||
+            (gender === null || gender === void 0 ? void 0 : gender.toUpperCase()) === this.FEMALE) {
+            return gender.toUpperCase() === this.MALE ? "Mr." : "Ms.";
+        }
+        else {
+            console.error("(gender) Should be MALE or FEMALE, " + gender + " is not.");
+            return "";
+        }
     };
     return Name;
 }(Randomly));
@@ -257,13 +289,26 @@ var Color = /** @class */ (function (_super) {
     /**
      *
      * @param format
-     * @type {?string}
+     * @type ?string
      * @returns number[] | undefined | string
      */
     Color.prototype.color = function (format) {
-        return format !== undefined
-            ? this.createColor(format)
-            : this.createColor("RGB");
+        if (!format) {
+            return this.createColor("RGB");
+        }
+        if (format && typeof format !== "string") {
+            typeError("format", format, "string");
+            return "";
+        }
+        if (format.toUpperCase() === "RGB" ||
+            format.toUpperCase() === "RGBA" ||
+            format.toUpperCase() === "HEX") {
+            return this.createColor(format);
+        }
+        else {
+            console.error("(format) Should be RGB, RGBA, HEX , " + format + " is not.");
+            return "";
+        }
     };
     return Color;
 }(Randomly));
@@ -275,13 +320,18 @@ var Phone = /** @class */ (function (_super) {
     /**
      *
      * @param format
-     * @type {?string}
+     * @type ?string
      * @returns string
      */
     Phone.prototype.phone = function (format) {
-        return format !== undefined
-            ? this.createNumberWithFormat(format)
-            : this.createNumberWithFormat(this.PHONE_DEFAULT);
+        if (!format) {
+            return this.createNumberWithFormat(this.PHONE_DEFAULT);
+        }
+        if (format && typeof format !== "string") {
+            typeError("format", format, "string");
+            return "";
+        }
+        return this.createNumberWithFormat(format);
     };
     return Phone;
 }(Randomly));
@@ -292,7 +342,8 @@ var Lorem = /** @class */ (function (_super) {
     }
     /**
      *
-     * @param data \{WPS?: {min?: number, max?: number}, SPP?: {min?: number, max?: number}}
+     * @param data
+     * @type {WPS?: {min?: number, max?: number}, SPP?: {min?: number, max?: number}}
      */
     Lorem.prototype.config = function (data) {
         var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -332,9 +383,14 @@ var Lorem = /** @class */ (function (_super) {
     /**
      *
      * @param sentences
+     * @type !number
      * @returns string
      */
-    Lorem.prototype.loremSentences = function (sentences) {
+    Lorem.prototype.sentences = function (sentences) {
+        if (typeof sentences !== "number") {
+            typeError("sentences", sentences, "number");
+            return "";
+        }
         var _result = "";
         var _i = 0;
         var _end = this.numRnd(this.LOREM_CFG.WordsPerSentence.min, this.LOREM_CFG.WordsPerSentence.max);
@@ -347,14 +403,19 @@ var Lorem = /** @class */ (function (_super) {
     /**
      *
      * @param paragraphs
+     * @type !number
      * @returns string
      */
-    Lorem.prototype.loremParagraphs = function (paragraphs) {
+    Lorem.prototype.paragraphs = function (paragraphs) {
+        if (typeof paragraphs !== "number") {
+            typeError("paragraphs", paragraphs, "number");
+            return "";
+        }
         var _result = "";
         var _i = 0;
         var _end = this.numRnd(this.LOREM_CFG.sentencesPerParagraph.min, this.LOREM_CFG.sentencesPerParagraph.max);
         while (_i < paragraphs) {
-            _result += this.loremSentences(_end);
+            _result += this.sentences(_end);
             _i++;
         }
         return _result;
@@ -363,18 +424,14 @@ var Lorem = /** @class */ (function (_super) {
 }(Randomly));
 var CreditCard = /** @class */ (function (_super) {
     __extends(CreditCard, _super);
-    function CreditCard(options) {
-        var _this = this;
-        var _a;
-        _this = _super.call(this) || this;
+    function CreditCard() {
+        var _this = _super.call(this) || this;
         _this.DEFAULT = {
             cvvLength: 3
         };
         _this.VISA_START = "4";
         _this.AMEX_START = ["34", "37"];
         _this.MASTER_START = ["51", "52", "53", "54", "55"];
-        _this.DEFAULT.cvvLength = (_a = options === null || options === void 0 ? void 0 : options.cvvLength) !== null && _a !== void 0 ? _a : 3;
-        _this.DEFAULT.cvvLength = Math.floor(_this.DEFAULT.cvvLength);
         return _this;
     }
     CreditCard.prototype.creditNumber = function (type) {
@@ -442,10 +499,14 @@ var CreditCard = /** @class */ (function (_super) {
     // luhn algorithm
     /**
      * @param creaditCardNumber
-     * @type {!string}
+     * @type !string
      * @returns object
      */
     CreditCard.prototype.isValid = function (creaditCardNumber) {
+        if (typeof creaditCardNumber !== "string") {
+            typeError("creaditCardNumber", creaditCardNumber, "string");
+            return { checksum: undefined, isValid: false };
+        }
         var result = [];
         var length = creaditCardNumber.length;
         var final = 0;
@@ -545,11 +606,25 @@ var Net = /** @class */ (function (_super) {
     };
     /**
      *
-     * @param data \{firstName?: string; lastName?: string; company?: string;}
+     * @param data
+     * @type {firstName?: string; lastName?: string; company?: string;}
      * @returns string
      */
     Net.prototype.email = function (data) {
         var _a, _b, _c;
+        /* Error handeling */
+        if ((data === null || data === void 0 ? void 0 : data.firstName) && typeof (data === null || data === void 0 ? void 0 : data.firstName) !== "string") {
+            typeError("firstName", data === null || data === void 0 ? void 0 : data.firstName, "string");
+            return "";
+        }
+        if ((data === null || data === void 0 ? void 0 : data.lastName) && typeof (data === null || data === void 0 ? void 0 : data.lastName) !== "string") {
+            typeError("lastName", data === null || data === void 0 ? void 0 : data.lastName, "string");
+            return "";
+        }
+        if ((data === null || data === void 0 ? void 0 : data.company) && typeof (data === null || data === void 0 ? void 0 : data.company) !== "string") {
+            typeError("company", data === null || data === void 0 ? void 0 : data.company, "string");
+            return "";
+        }
         var firstName = (_a = data === null || data === void 0 ? void 0 : data.firstName) !== null && _a !== void 0 ? _a : this.fName();
         var lastName = (_b = data === null || data === void 0 ? void 0 : data.lastName) !== null && _b !== void 0 ? _b : this.lName();
         var company = (_c = data === null || data === void 0 ? void 0 : data.company) !== null && _c !== void 0 ? _c : this.provider[this.rnd(this.provider)];
@@ -557,11 +632,15 @@ var Net = /** @class */ (function (_super) {
     };
     /**
      *
-     * @param classType - A,B,C,D,E
-     * @type {?string}
+     * @param classType - 'A', 'B', 'C', 'D', 'E'
+     * @type ?string
      * @returns string
      */
     Net.prototype.ipv4 = function (classType) {
+        if (classType && typeof classType !== "string") {
+            typeError("classType", classType, "string");
+            return "";
+        }
         return classType !== undefined
             ? "".concat(this.classTypeNum(classType), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(1, 255))
             : "".concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255), ".").concat(this.numRnd(0, 255));
@@ -605,6 +684,18 @@ var Number = /** @class */ (function (_super) {
      */
     Number.prototype.float = function (data) {
         var _a, _b, _c;
+        if ((data === null || data === void 0 ? void 0 : data.max) && typeof (data === null || data === void 0 ? void 0 : data.max) !== "number") {
+            typeError("max", data === null || data === void 0 ? void 0 : data.max, "number");
+            return 0;
+        }
+        if ((data === null || data === void 0 ? void 0 : data.min) && typeof (data === null || data === void 0 ? void 0 : data.min) !== "number") {
+            typeError("min", data === null || data === void 0 ? void 0 : data.min, "number");
+            return 0;
+        }
+        if ((data === null || data === void 0 ? void 0 : data.decimal) && typeof (data === null || data === void 0 ? void 0 : data.decimal) !== "number") {
+            typeError("decimal", data === null || data === void 0 ? void 0 : data.decimal, "number");
+            return 0;
+        }
         var _min = (_a = data === null || data === void 0 ? void 0 : data.min) !== null && _a !== void 0 ? _a : this.DEFAULTS.min;
         var _max = (_b = data === null || data === void 0 ? void 0 : data.max) !== null && _b !== void 0 ? _b : this.DEFAULTS.max;
         var _decimal = (_c = data === null || data === void 0 ? void 0 : data.decimal) !== null && _c !== void 0 ? _c : 2;
@@ -618,6 +709,14 @@ var Number = /** @class */ (function (_super) {
      */
     Number.prototype.int = function (data) {
         var _a, _b;
+        if ((data === null || data === void 0 ? void 0 : data.max) && typeof (data === null || data === void 0 ? void 0 : data.max) !== "number") {
+            typeError("max", data === null || data === void 0 ? void 0 : data.max, "number");
+            return 0;
+        }
+        if ((data === null || data === void 0 ? void 0 : data.min) && typeof (data === null || data === void 0 ? void 0 : data.min) !== "number") {
+            typeError("min", data === null || data === void 0 ? void 0 : data.min, "number");
+            return 0;
+        }
         var _min = (_a = data === null || data === void 0 ? void 0 : data.min) !== null && _a !== void 0 ? _a : this.DEFAULTS.min;
         var _max = (_b = data === null || data === void 0 ? void 0 : data.max) !== null && _b !== void 0 ? _b : this.DEFAULTS.max;
         return this.numRnd(_min, _max);
@@ -629,6 +728,34 @@ var Number = /** @class */ (function (_super) {
      * @returns number
      */
     Number.prototype.array = function (data) {
+        if (!data.length) {
+            console.error("(length) can not be undefined");
+            return [];
+        }
+        if (!data.type) {
+            console.error("(type) can not be undefined");
+            return [];
+        }
+        if (data.max && typeof data.max !== "number") {
+            typeError("max", data.max, "number");
+            return [];
+        }
+        if (data.min && typeof data.min !== "number") {
+            typeError("min", data.min, "number");
+            return [];
+        }
+        if (data.decimal && typeof data.decimal !== "number") {
+            typeError("decimal", data.decimal, "number");
+            return [];
+        }
+        if (data.length && typeof data.length !== "number") {
+            typeError("length", data.length, "number");
+            return [];
+        }
+        if (data.type && typeof data.type !== "string") {
+            typeError("type", data.type, "string");
+            return [];
+        }
         var arr = [];
         var type = data === null || data === void 0 ? void 0 : data.type.toUpperCase();
         switch (type) {

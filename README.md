@@ -168,24 +168,24 @@ modnarjs.lorem.config(data: {
 }): void
 ```
 
-### loremSentences
+### sentences
 
 > Random sentence, you can change default words per sentence
 
 ```typescript
-modnarjs.lorem.loremSentences(sentences: number): string
+modnarjs.lorem.sentences(sentences: number): string
 // e.g.
-modnarjs.lorem.loremSentences(1) // "relaxing delphi trophy emotion buick."
+modnarjs.lorem.sentences(1) // "relaxing delphi trophy emotion buick."
 ```
 
-### loremParagraphs
+### paragraphs
 
 > Random paragraph, you can change default sentences per paragraph
 
 ```typescript
-modnarjs.lorem.loremParagraphs(paragraphs: number): string
+modnarjs.lorem.paragraphs(paragraphs: number): string
 // e.g.
-modnarjs.lorem.loremParagraphs(5)
+modnarjs.lorem.paragraphs(5)
 ```
 
 ## Credit Card

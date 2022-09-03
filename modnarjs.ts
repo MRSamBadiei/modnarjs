@@ -12,7 +12,6 @@ import {
   arrStr,
   I_Color_RGB,
   I_Card_Visa_Valid,
-  I_Card_Default,
   I_Net_Email,
   I_Number_Float,
   I_Number_Int,
@@ -22,11 +21,10 @@ import {
   I_Lorem_Config,
 } from "./types/type";
 
-// test funcs
-function log(param: any): void {
-  console.log(param);
-}
-//
+const typeError = (name: string, data: any, type: string) => {
+  console.error(`(${name}) Type Error, ${data} is not a ${type}.`);
+};
+
 class Randomly {
   protected readonly MALE: string = "MALE";
   protected readonly FEMALE: string = "FEMALE";
@@ -166,7 +164,6 @@ class Randomly {
     return result;
   }
 }
-
 class Name extends Randomly {
   constructor() {
     super();
@@ -184,16 +181,35 @@ class Name extends Randomly {
   }
   /**
    *
-   * @param data - is a object contains
-   * {
-   * name?: string | undefined,
-   * gender?: string | undefined,
-   * start?: string | undefined,
-   * end?: string | undefined
+   * @param data
+   * @type {name?: string | undefined, gender?: string | undefined,
+   * start?: string | undefined, end?: string | undefined
    * }
    * @returns string
    */
   public fName(data?: I_Name_Fname): string {
+    /* Error handeling */
+    if (data?.start && typeof data?.start !== "string") {
+      typeError("start", data?.start, "string");
+      return "";
+    }
+
+    if (data?.end && typeof data?.end !== "string") {
+      typeError("end", data?.end, "string");
+      return "";
+    }
+
+    if (data?.name && typeof data?.name !== "string") {
+      typeError("name", data?.name, "string");
+      return "";
+    }
+
+    if (data?.gender && typeof data?.gender !== "string") {
+      typeError("gender", data?.gender, "string");
+      return "";
+    }
+
+    //
     const _start: strUnd = data?.start ?? undefined;
     const _end: strUnd = data?.end ?? undefined;
     const _gender: strUnd =
@@ -209,14 +225,25 @@ class Name extends Randomly {
   /**
    *
    * @param data - is a object contains
-   * {
-   * name?: string | undefined,
-   * start?: string | undefined,
-   * end?: string | undefined
+   * @type {name?: string | undefined, start?: string | undefined, end?: string | undefined
    * }
    * @returns string
    */
   public lName(data?: I_Name_Lname): string {
+    /* Error handeling */
+    if (data?.start && typeof data?.start !== "string") {
+      typeError("start", data?.start, "string");
+      return "";
+    }
+    if (data?.end && typeof data?.end !== "string") {
+      typeError("end", data?.end, "string");
+      return "";
+    }
+    if (data?.name && typeof data?.name !== "string") {
+      typeError("name", data?.name, "string");
+      return "";
+    }
+    //
     const _start: strUnd = data?.start ?? undefined;
     const _end: strUnd = data?.end ?? undefined;
     const _name: strUnd =
@@ -226,22 +253,32 @@ class Name extends Randomly {
   /**
    *
    * @param gender - "male" or "female"
+   * @type ?string
    * @returns string
    */
   public prefix(gender?: string): string {
-    const result: string =
-      gender !== undefined
-        ? gender === this.MALE
-          ? "Mr."
-          : "Ms."
-        : this.createGender() === this.MALE
-        ? "Mr."
-        : "Ms.";
+    if (!gender) {
+      return this.createGender() === this.MALE ? "Mr." : "Ms.";
+    }
 
-    return result;
+    if (gender && typeof gender !== "string") {
+      typeError("gender", gender, "string");
+      return "";
+    }
+
+    if (
+      gender?.toUpperCase() === this.MALE ||
+      gender?.toUpperCase() === this.FEMALE
+    ) {
+      return gender.toUpperCase() === this.MALE ? "Mr." : "Ms.";
+    } else {
+      console.error(
+        "(gender) Should be MALE or FEMALE, " + gender + " is not."
+      );
+      return "";
+    }
   }
 }
-
 class Animal extends Randomly {
   constructor() {
     super();
@@ -254,7 +291,6 @@ class Animal extends Randomly {
     return this.createAnimalName();
   }
 }
-
 class Color extends Randomly {
   constructor() {
     super();
@@ -262,16 +298,32 @@ class Color extends Randomly {
   /**
    *
    * @param format
-   * @type {?string}
+   * @type ?string
    * @returns number[] | undefined | string
    */
   public color(format?: string) {
-    return format !== undefined
-      ? this.createColor(format)
-      : this.createColor("RGB");
+    if (!format) {
+      return this.createColor("RGB");
+    }
+
+    if (format && typeof format !== "string") {
+      typeError("format", format, "string");
+      return "";
+    }
+    if (
+      format.toUpperCase() === "RGB" ||
+      format.toUpperCase() === "RGBA" ||
+      format.toUpperCase() === "HEX"
+    ) {
+      return this.createColor(format);
+    } else {
+      console.error(
+        "(format) Should be RGB, RGBA, HEX , " + format + " is not."
+      );
+      return "";
+    }
   }
 }
-
 class Phone extends Randomly {
   constructor() {
     super();
@@ -279,23 +331,30 @@ class Phone extends Randomly {
   /**
    *
    * @param format
-   * @type {?string}
+   * @type ?string
    * @returns string
    */
   public phone(format?: string): string {
-    return format !== undefined
-      ? this.createNumberWithFormat(format)
-      : this.createNumberWithFormat(this.PHONE_DEFAULT);
+    if (!format) {
+      return this.createNumberWithFormat(this.PHONE_DEFAULT);
+    }
+
+    if (format && typeof format !== "string") {
+      typeError("format", format, "string");
+      return "";
+    }
+
+    return this.createNumberWithFormat(format);
   }
 }
-
 class Lorem extends Randomly {
   constructor() {
     super();
   }
   /**
    *
-   * @param data \{WPS?: {min?: number, max?: number}, SPP?: {min?: number, max?: number}}
+   * @param data
+   * @type {WPS?: {min?: number, max?: number}, SPP?: {min?: number, max?: number}}
    */
   public config(data: I_Lorem_Config): void {
     this.LOREM_CFG.WordsPerSentence.min =
@@ -334,9 +393,15 @@ class Lorem extends Randomly {
   /**
    *
    * @param sentences
+   * @type !number
    * @returns string
    */
-  public loremSentences(sentences: number): string {
+  public sentences(sentences: number): string {
+    if (typeof sentences !== "number") {
+      typeError("sentences", sentences, "number");
+      return "";
+    }
+
     let _result: string = "";
     let _i: number = 0;
     let _end: number = this.numRnd(
@@ -352,9 +417,14 @@ class Lorem extends Randomly {
   /**
    *
    * @param paragraphs
+   * @type !number
    * @returns string
    */
-  public loremParagraphs(paragraphs: number): string {
+  public paragraphs(paragraphs: number): string {
+    if (typeof paragraphs !== "number") {
+      typeError("paragraphs", paragraphs, "number");
+      return "";
+    }
     let _result: string = "";
     let _i: number = 0;
     let _end: number = this.numRnd(
@@ -362,24 +432,21 @@ class Lorem extends Randomly {
       this.LOREM_CFG.sentencesPerParagraph.max
     );
     while (_i < paragraphs) {
-      _result += this.loremSentences(_end);
+      _result += this.sentences(_end);
       _i++;
     }
     return _result;
   }
 }
-
 class CreditCard extends Name {
-  private DEFAULT: I_Card_Default = {
+  private DEFAULT = {
     cvvLength: 3,
   };
   private readonly VISA_START: string = "4";
   private readonly AMEX_START: arrStr = ["34", "37"];
   private readonly MASTER_START: arrStr = ["51", "52", "53", "54", "55"];
-  constructor(options?: I_Card_Default) {
+  constructor() {
     super();
-    this.DEFAULT.cvvLength = options?.cvvLength ?? 3;
-    this.DEFAULT.cvvLength = Math.floor(this.DEFAULT.cvvLength);
   }
   private creditNumber(type: string): number {
     let result: string = type;
@@ -452,10 +519,14 @@ class CreditCard extends Name {
   // luhn algorithm
   /**
    * @param creaditCardNumber
-   * @type {!string}
+   * @type !string
    * @returns object
    */
   public isValid(creaditCardNumber: string): I_Card_Visa_Valid {
+    if (typeof creaditCardNumber !== "string") {
+      typeError("creaditCardNumber", creaditCardNumber, "string");
+      return { checksum: undefined, isValid: false };
+    }
     const result: arrStr = [];
     const length = creaditCardNumber.length;
     let final: number = 0;
@@ -487,7 +558,6 @@ class CreditCard extends Name {
       : { isValid: false, checksum: (10 - (final % 10)).toString() };
   }
 }
-
 class Net extends Name {
   private readonly provider: arrStr = [
     "gmail.com",
@@ -561,10 +631,27 @@ class Net extends Name {
   }
   /**
    *
-   * @param data \{firstName?: string; lastName?: string; company?: string;}
+   * @param data
+   * @type {firstName?: string; lastName?: string; company?: string;}
    * @returns string
    */
   public email(data?: I_Net_Email): string {
+    /* Error handeling */
+    if (data?.firstName && typeof data?.firstName !== "string") {
+      typeError("firstName", data?.firstName, "string");
+      return "";
+    }
+
+    if (data?.lastName && typeof data?.lastName !== "string") {
+      typeError("lastName", data?.lastName, "string");
+      return "";
+    }
+
+    if (data?.company && typeof data?.company !== "string") {
+      typeError("company", data?.company, "string");
+      return "";
+    }
+
     const firstName: strUnd = data?.firstName ?? this.fName();
     const lastName: strUnd = data?.lastName ?? this.lName();
     const company: strUnd =
@@ -573,11 +660,16 @@ class Net extends Name {
   }
   /**
    *
-   * @param classType - A,B,C,D,E
-   * @type {?string}
+   * @param classType - 'A', 'B', 'C', 'D', 'E'
+   * @type ?string
    * @returns string
    */
   public ipv4(classType?: string): string {
+    if (classType && typeof classType !== "string") {
+      typeError("classType", classType, "string");
+      return "";
+    }
+
     return classType !== undefined
       ? `${this.classTypeNum(classType)}.${this.numRnd(0, 255)}.${this.numRnd(
           0,
@@ -597,7 +689,6 @@ class Net extends Name {
     return domain_arr[this.rnd(domain_arr)].toLowerCase();
   }
 }
-
 class Country extends Randomly {
   constructor() {
     super();
@@ -606,7 +697,6 @@ class Country extends Randomly {
     return country_arr[this.rnd(country_arr)];
   }
 }
-
 class Number extends Randomly {
   private readonly DEFAULTS = {
     min: 1,
@@ -624,6 +714,19 @@ class Number extends Randomly {
    * @returns number
    */
   public float(data?: I_Number_Float): number {
+    if (data?.max && typeof data?.max !== "number") {
+      typeError("max", data?.max, "number");
+      return 0;
+    }
+    if (data?.min && typeof data?.min !== "number") {
+      typeError("min", data?.min, "number");
+      return 0;
+    }
+    if (data?.decimal && typeof data?.decimal !== "number") {
+      typeError("decimal", data?.decimal, "number");
+      return 0;
+    }
+
     const _min: number = data?.min ?? this.DEFAULTS.min;
     const _max: number = data?.max ?? this.DEFAULTS.max;
     const _decimal: number = data?.decimal ?? 2;
@@ -636,6 +739,15 @@ class Number extends Randomly {
    * @returns number
    */
   public int(data?: I_Number_Int): number {
+    if (data?.max && typeof data?.max !== "number") {
+      typeError("max", data?.max, "number");
+      return 0;
+    }
+    if (data?.min && typeof data?.min !== "number") {
+      typeError("min", data?.min, "number");
+      return 0;
+    }
+
     const _min: number = data?.min ?? this.DEFAULTS.min;
     const _max: number = data?.max ?? this.DEFAULTS.max;
     return this.numRnd(_min, _max);
@@ -647,6 +759,35 @@ class Number extends Randomly {
    * @returns number
    */
   public array(data: I_Number_Array): number[] {
+    if (!data.length) {
+      console.error("(length) can not be undefined");
+      return [];
+    }
+    if (!data.type) {
+      console.error("(type) can not be undefined");
+      return [];
+    }
+    if (data.max && typeof data.max !== "number") {
+      typeError("max", data.max, "number");
+      return [];
+    }
+    if (data.min && typeof data.min !== "number") {
+      typeError("min", data.min, "number");
+      return [];
+    }
+    if (data.decimal && typeof data.decimal !== "number") {
+      typeError("decimal", data.decimal, "number");
+      return [];
+    }
+    if (data.length && typeof data.length !== "number") {
+      typeError("length", data.length, "number");
+      return [];
+    }
+    if (data.type && typeof data.type !== "string") {
+      typeError("type", data.type, "string");
+      return [];
+    }
+
     const arr: number[] = [];
     const type = data?.type.toUpperCase();
     switch (type) {
@@ -668,7 +809,6 @@ class Number extends Randomly {
     return arr;
   }
 }
-
 class Rdate extends Randomly {
   constructor() {
     super();
